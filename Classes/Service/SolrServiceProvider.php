@@ -454,12 +454,12 @@ class SolrServiceProvider extends AbstractServiceProvider
                             $queryForFacet->addExclude($this->tagForFacet($facetID));
                         }
 
-                        if (isset($facet['showmissing']) && 1 === $facet['showmissing']) {
+                        if (isset($facet['showmissing']) && 1 === intval($facet['showmissing'])) {
                             $queryForFacet->setMissing(true);
                         }
                     }
 
-                    if (isset($facet['showMissing']) && 1 === $facet['showMissing']) {
+                    if (isset($facet['showMissing']) && 1 === intval($facet['showMissing'])) {
                         $queryForFacet->setMissing(true);
                     }
                 } else {

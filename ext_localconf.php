@@ -1,37 +1,37 @@
 <?php
 
+use FriendsOfTYPO3\FontawesomeProvider\Imaging\IconProvider\FontawesomeIconProvider;
+use Subugoe\Find\Controller\SearchController;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
 defined('TYPO3') || exit;
 
-if (!defined('TYPO3_COMPOSER_MODE') || TYPO3_COMPOSER_MODE === false) {
-    require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('find').'.Build/vendor/autoload.php';
-}
-
-$autoexec = static function () {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+$autoexec = static function (): void {
+    ExtensionUtility::configurePlugin(
         'Find',
         'Find',
         [
-            \Subugoe\Find\Controller\SearchController::class => 'index, detail, suggest',
+            SearchController::class => 'index, detail, suggest',
         ],
         [
-            \Subugoe\Find\Controller\SearchController::class => 'index, detail, suggest',
+            SearchController::class => 'index, detail, suggest',
         ]
     );
+    /*
+     * Register icons
+     */
+    /** @var IconRegistry $iconRegistry */
+    $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
+    $iconRegistry->registerIcon(
+        'ext-find-ce-wizard',
+        FontawesomeIconProvider::class,
+        ['name' => 'search']
+    );
 
-    if (TYPO3 === 'BE') {
-        /*
-         * Register icons
-         */
-        /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-        $iconRegistry->registerIcon(
-            'ext-find-ce-wizard',
-            \TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider::class,
-            ['name' => 'search']
-        );
-    }
-
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:find/Configuration/TSconfig/ContentElementWizard.tsconfig">');
+    ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:find/Configuration/TSconfig/ContentElementWizard.tsconfig">');
 };
 $autoexec();
 unset($autoexec);

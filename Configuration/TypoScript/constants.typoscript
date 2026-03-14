@@ -24,7 +24,7 @@ plugin.tx_find {
 
         count = 20
         # cat=plugin.tx_find/file; type=string; label=Path to CSS file (FE)
-        CSSPath = EXT:find/Resources/Public/CSS/find.css
+        CSSPath = EXT:find/Resources/Public/JavaScript/find.css
         # cat=plugin.tx_find/file; type=string; label=Path to JavaScript file (FE)
         JSPath = EXT:find/Resources/Public/JavaScript/find.js
         # cat=plugin.tx_find/file; type=string; label=Path to template localisation files (FE)

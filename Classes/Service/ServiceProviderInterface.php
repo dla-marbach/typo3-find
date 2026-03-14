@@ -32,9 +32,11 @@ namespace Subugoe\Find\Service;
  */
 interface ServiceProviderInterface
 {
-    public function __construct(string $connectionName, array $settings);
-
     public function connect();
+
+    public function setConnectionName(string $name): void;
+
+    public function setSettings(array $settings): void;
 
     public function getConfiguration();
 
@@ -46,44 +48,17 @@ interface ServiceProviderInterface
 
     public function isExtendedSearch();
 
-    /**
-     * @param $query
-     *
-     * @return mixed
-     */
     public function search($query);
 
-    /**
-     * @param string $actionName
-     */
-    public function setAction($actionName);
+    public function setAction(string $actionName);
 
-    /**
-     * @param $key
-     * @param $value
-     *
-     * @return mixed
-     */
     public function setConfigurationValue($key, $value);
 
-    /**
-     * @param string $key
-     */
-    public function setControllerExtensionKey($key);
+    public function setControllerExtensionKey(string $key);
 
     public function setCounter();
 
-    /**
-     * @param array $requestArguments
-     *
-     * @return mixed
-     */
-    public function setRequestArguments($requestArguments);
+    public function setRequestArguments(array $requestArguments);
 
-    /**
-     * @param $settings
-     *
-     * @return mixed
-     */
-    public function suggestQuery($settings);
+    public function suggestQuery(array $settings);
 }

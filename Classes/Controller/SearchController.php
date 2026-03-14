@@ -28,67 +28,46 @@ namespace Subugoe\Find\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use Psr\Http\Message\ResponseInterface;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
-use TYPO3\CMS\Core\Log\LogManagerInterface;
+use TYPO3\CMS\Core\Page\AssetCollector;
+use TYPO3\CMS\Core\PageTitle\PageTitleProviderInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class SearchController extends ActionController
 {
     protected array $requestArguments = [];
 
-    protected ?object $searchProvider = null;
-
-    private \Psr\Log\LoggerInterface $logger;
-
-    public function __construct(LogManagerInterface $logManager)
-    {
-        $this->logger = $logManager->getLogger('find');
-    }
+    public function __construct(private readonly AssetCollector $assetCollector, private readonly ServiceProviderInterface $searchProvider, private readonly PageTitleProviderInterface $pageTitleProvider) {}
 
     /**
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \JsonException
      */
     public function detailAction(string $id): ResponseInterface
     {
         $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
-
         if ($this->request->hasArgument('underlyingQuery')) {
             $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
-            $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
-            $assetCollector->addInlineJavaScript(
-                'my_identifier',
-                FrontendUtility::addQueryInformationAsJavaScript(
-                    $underlyingQueryInfo['q'] ?? [],
-                    $this->settings,
-                    (int) $underlyingQueryInfo['position'],
-                    $arguments
-                ),
-                [],
-                ['priority' => true]
+            $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
+                $underlyingQueryInfo['q'],
+                $this->settings,
+                (int)$underlyingQueryInfo['position'],
+                $arguments
             );
-//            $this->response->addAdditionalHeaderData(
-//                FrontendUtility::addQueryInformationAsJavaScript(
-//                    $underlyingQueryInfo['q'],
-//                    $this->settings,
-//                    (int) $underlyingQueryInfo['position'],
-//                    $arguments
-//                )
-//            );
+
+            $this->assetCollector->addInlineJavaScript('underlyingQueryVar', sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent), ['type' => 'text/javascript'], ['priority' => true]);
+
         }
 
         $this->addStandardAssignments();
 
         $this->view->assignMultiple($detail);
         $this->view->assignMultiple([
+            'underlyingQuery' => $underlyingQueryScriptTagContent ?? '',
             'arguments' => $arguments,
             'config' => $this->searchProvider->getConfiguration(),
         ]);
@@ -97,73 +76,84 @@ class SearchController extends ActionController
     }
 
     /**
-     * Index Action.
+     * @throws \JsonException
      */
     public function indexAction(): ResponseInterface
     {
-        if(!array_key_exists('qParam', $this->requestArguments)) {
-            $params = array('qParam' => '1');
-            return $this->redirect('index', NULL, NULL, array_merge($this->requestArguments, $params));
+        // FORK-ABWEICHUNG: Der qParam-Redirect stellt sicher, dass die Request-Parameter bei der
+        // Suche erhalten bleiben. Im Original (subugoe/typo3-find) existiert dieses Feature nicht.
+        // Es wird benötigt, damit die Ajax-Facetten-Funktionalität des Forks korrekt funktioniert,
+        // da die Request-Parameter für die Facetten-Abfragen bewahrt werden müssen.
+        if (!array_key_exists('qParam', $this->requestArguments)) {
+            $params = ['qParam' => '1'];
+            return $this->redirect('index', null, null, array_merge($this->requestArguments, $params));
         }
 
         if (array_key_exists('id', $this->requestArguments)) {
-            return $this->redirect('detail', NULL, NULL, $this->requestArguments);
-        } else {
-            $this->searchProvider->setCounter();
+            // FORK-ABWEICHUNG: Im Original wird hier ein ForwardResponse verwendet.
+            // Der Fork nutzt stattdessen einen Redirect, um sicherzustellen, dass die
+            // URL im Browser korrekt aktualisiert wird, was für die Detail-Ansicht
+            // mit den Fork-spezifischen Features (z.B. Einzeltreffer-Weiterleitung) nötig ist.
+            return $this->redirect('detail', null, null, $this->requestArguments);
+        }
 
-            $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
-            $assetCollector->addInlineJavaScript(
-                'my_identifier',
-                FrontendUtility::addQueryInformationAsJavaScript(
-                    $this->searchProvider->getRequestArguments()['q'] ?? [],
-                    $this->settings,
-                    null,
-                    $this->searchProvider->getRequestArguments()
-                ),
-                [],
-                ['priority' => true]
-            );
+        $this->searchProvider->setCounter();
 
-            $this->addStandardAssignments();
-            $defaultQuery = $this->searchProvider->getDefaultQuery();
+        $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
+            $this->searchProvider->getRequestArguments()['q'] ?? [],
+            $this->settings,
+            null,
+            $this->searchProvider->getRequestArguments()
+        );
 
-            // redirect to detail if only one item found and search is configured to redirect
-            if ($defaultQuery['results']->getNumFound() === 1) {
-                $redirectQueries = [];
-                if ($this->settings['redirectAllOneHitToDetail']) {
-                    $docId = $defaultQuery['results']->getData()['response']['docs'][0]['id'];
-                    return $this->redirect('detail', NULL, NULL, ['id' => $docId]);
-                } else {
-                    foreach ($this->settings['queryFields'] as $querySettings) {
-                        if ($querySettings['redirectToDetail']) {
-                            $redirectQueries[$querySettings['id']] = 1;
-                        }
-                    }
+        $this->assetCollector->addInlineJavaScript('underlyingQueryVar', sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent), ['type' => 'text/javascript'], ['priority' => true]);
 
-                    foreach ($this->requestArguments['q'] as $queryId => $queryTerm) {
-                        if (array_key_exists($queryId, $redirectQueries)) {
-                            $docId = $defaultQuery['results']->getData()['response']['docs'][0]['id'];
-                            return $this->redirect('detail', NULL, NULL, ['id' => $docId]);
-                        }
-                    }
+        $this->addStandardAssignments();
+        $defaultQuery = $this->searchProvider->getDefaultQuery();
+
+        // FORK-ABWEICHUNG: Automatische Weiterleitung zur Detail-Ansicht, wenn die Suche
+        // nur ein einziges Ergebnis liefert. Diese Funktion existiert im Original nicht.
+        // Sie kann über die TypoScript-Einstellungen 'redirectAllOneHitToDetail' (global)
+        // oder 'redirectToDetail' (pro queryField) konfiguriert werden.
+        if ($defaultQuery['results']->getNumFound() === 1) {
+            if (!empty($this->settings['redirectAllOneHitToDetail'])) {
+                $docId = $defaultQuery['results']->getData()['response']['docs'][0]['id'];
+                return $this->redirect('detail', null, null, ['id' => $docId]);
+            }
+
+            $redirectQueries = [];
+            foreach ($this->settings['queryFields'] as $querySettings) {
+                if (!empty($querySettings['redirectToDetail'])) {
+                    $redirectQueries[$querySettings['id']] = 1;
                 }
             }
 
-            $viewValues = [
-                'arguments' => $this->searchProvider->getRequestArguments(),
-                'config' => $this->searchProvider->getConfiguration(),
-            ];
-
-            CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
-            $this->view->assignMultiple($viewValues);
+            if (isset($this->requestArguments['q']) && is_array($this->requestArguments['q'])) {
+                foreach ($this->requestArguments['q'] as $queryId => $queryTerm) {
+                    if (array_key_exists($queryId, $redirectQueries)) {
+                        $docId = $defaultQuery['results']->getData()['response']['docs'][0]['id'];
+                        return $this->redirect('detail', null, null, ['id' => $docId]);
+                    }
+                }
+            }
         }
+
+        $viewValues = [
+            'underlyingQuery' => $underlyingQueryScriptTagContent,
+            'arguments' => $this->searchProvider->getRequestArguments(),
+            'config' => $this->searchProvider->getConfiguration(),
+        ];
+
+        CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
+        $this->view->assignMultiple($viewValues);
+
         return $this->htmlResponse();
     }
 
     /**
      * Initialisation and setup.
      */
-    protected function initializeAction()
+    protected function initializeAction(): void
     {
         ksort($this->settings['queryFields']);
 
@@ -180,36 +170,33 @@ class SearchController extends ActionController
     /**
      * Suggest/Autocomplete action.
      */
-    public function suggestAction()
+    public function suggestAction(): ResponseInterface
     {
         $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
         $this->view->assign('suggestions', $results);
+
+        return $this->htmlResponse();
     }
 
     /**
      * Assigns standard variables to the view.
      */
-    protected function addStandardAssignments()
+    protected function addStandardAssignments(): void
     {
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
         $this->searchProvider->setConfigurationValue(
             'uid',
-            $this->configurationManager->getContentObject()->data['uid']
+            $this->request->getAttribute('currentContentObject')->data['uid']
         );
         $this->searchProvider->setConfigurationValue('prefixID', 'tx_find_find');
-        $this->searchProvider->setConfigurationValue('pageTitle', $GLOBALS['TSFE']->page['title']);
+        $this->searchProvider->setConfigurationValue('pageTitle', $this->pageTitleProvider->getTitle());
     }
 
-    /**
-     * @param string $activeConnection
-     */
-    protected function initializeConnection($activeConnection)
+    protected function initializeConnection(string $activeConnection): void
     {
-        $connectionConfiguration = $this->settings['connections'][$activeConnection];
+        $this->searchProvider->setConnectionName($activeConnection);
+        $this->searchProvider->setSettings($this->settings);
 
-        /* @var ServiceProviderInterface $searchProvider */
-        $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection,
-            $this->settings);
         $this->searchProvider->connect();
     }
 }

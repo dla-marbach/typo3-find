@@ -6,8 +6,11 @@ services:
 
   Subugoe\Find\:
     resource: '../Classes/*'
+    # FORK-ABWEICHUNG: EidSettings.php wird aus der DI-Registrierung ausgeschlossen,
+    # da diese Datei im Fork für die Ajax-Facetten-Funktionalität benötigt wird und
+    # keine reguläre DI-fähige Klasse ist (enthält nur Konfigurationsvariablen).
+    # Diese Datei existiert im Original (subugoe/typo3-find) nicht.
     exclude: '../Classes/Ajax/EidSettings.php'
 
-  Subugoe\Find\ViewHelpers\:
-    resource: '../Classes/ViewHelpers/*'
-    public: true
+  Subugoe\Find\Service\ServiceProviderInterface:
+    class: Subugoe\Find\Service\SolrServiceProvider

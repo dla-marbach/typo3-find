@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test for FacetIsActive ViewHelper.
  */
-class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
+class FacetIsActiveViewHelperTest extends UnitTestCase
 {
     /**
      * @var FacetIsActiveViewHelper
@@ -43,13 +44,10 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getAccessibleMock(FacetIsActiveViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
-    /**
-     * @test
-     */
-    public function activeFacetIsCorrectlyRecognized()
+    #[Test]
+    public function activeFacetIsCorrectlyRecognized(): void
     {
         $arguments = [
             'facetID' => 'horus',
@@ -74,10 +72,8 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
         self::assertTrue($this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function notActiveFacetsReturnFalse()
+    #[Test]
+    public function notActiveFacetsReturnFalse(): void
     {
         $arguments = [
             'facetID' => 'behedeti',

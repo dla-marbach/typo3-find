@@ -26,11 +26,12 @@ namespace Subugoe\Find\ViewHelpers\Page;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidFileException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidFileNameException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -40,34 +41,29 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class LinkCSSViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function __construct(private readonly PageRenderer $pageRenderer, private readonly FilePathSanitizer $filePathSanitizer) {}
+
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('file', 'string', 'File to add a CSS header for');
     }
 
     /**
-     * @return string
+     * @throws InvalidPathException
+     * @throws InvalidFileException
+     * @throws InvalidFileNameException
+     * @throws FileDoesNotExistException
      */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '9.5.0', '<');
-
-        if ($typo3VersionConstraint) {
-            $CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($arguments['file']);
-        } else {
-            $fileNameFromArguments = $arguments['file'];
-            if ($fileNameFromArguments) {
-                $CSSFileName = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class)->sanitize($fileNameFromArguments);
-            }
+    public function render(): string
+    {
+        $fileNameFromArguments = $this->arguments['file'];
+        if ($fileNameFromArguments) {
+            $CSSFileName = $this->filePathSanitizer->sanitize($fileNameFromArguments);
         }
 
-        if ($CSSFileName) {
-            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-            $pageRenderer->addCSSFile($CSSFileName);
+        if ($CSSFileName !== '' && $CSSFileName !== '0') {
+            $this->pageRenderer->addCSSFile($CSSFileName);
         }
     }
 }

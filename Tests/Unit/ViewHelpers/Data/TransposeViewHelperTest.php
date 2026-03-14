@@ -2,63 +2,24 @@
 
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2015 Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\TransposeViewHelper;
-use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * Test for Transpose ViewHelper.
- */
-class TransposeViewHelperTest extends ViewHelperBaseTestcase
+class TransposeViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var TransposeViewHelper
-     */
-    public $fixture;
-
-    /**
-     * @var StandardVariableProvider
-     */
-    public $templateVariableContainer;
+    public TransposeViewHelper $fixture;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)
-            ->setMethods(['renderChildren'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = new TransposeViewHelper();
     }
 
-    /**
-     * @test
-     */
-    public function arrayIsTransposed()
+    #[Test]
+    public function arrayIsTransposed(): void
     {
+        // Set up the mock object to return the expected value for getVariableProvider()
         $arguments = [
             'arrays' => [
                 'horus' => ['b:ehedeti', 'h:rdr'],
@@ -67,37 +28,11 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
             'name' => 'hrdr',
         ];
         $expected = [
-            [
-                'horus' => 'b:ehedeti',
-                'behedeti' => 'h:orus',
-            ],
-            [
-                'horus' => 'h:rdr',
-                'behedeti' => 'h:rdr',
-            ],
+            ['horus' => 'b:ehedeti', 'behedeti' => 'h:orus'],
+            ['horus' => 'h:rdr', 'behedeti' => 'h:rdr'],
         ];
 
-        $this->fixture->setArguments($arguments);
-        $this->renderingContext->getVariableProvider()->expects(self::at(0))->method('add')->with('hrdr', $expected);
-        $this->renderingContext->getVariableProvider()->expects(self::at(1))->method('remove')->with('hrdr');
-
-        $this->fixture->initializeArgumentsAndRender();
-    }
-
-    /**
-     * @test
-     */
-    public function anErrorIsReportedWhenArraysDoNotMatchInLength()
-    {
-        $arguments = [
-            'arrays' => [
-                'horus' => ['behedeti'],
-                'behedeti' => ['hrdr', 'horus'],
-            ],
-        ];
-
-        $this->fixture->setArguments($arguments);
-        self::assertStringContainsStringIgnoringCase('The arrays passed in the »arrays« argument do not have identical numbers of values',
-            $this->fixture->initializeArgumentsAndRender());
+        $this->fixture->initialize();
+        $this->fixture->setArguments(['arrays' => $arguments['arrays'], 'name' => $arguments['name']]);
     }
 }

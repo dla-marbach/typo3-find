@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Logic;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -37,20 +36,14 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class NotViewHelper extends AbstractViewHelper
 {
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', true);
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): bool {
-        return true != $arguments['condition'];
+    public function render(): bool
+    {
+        return $this->arguments['condition'] != true;
     }
 }

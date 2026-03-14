@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -37,25 +36,19 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ValueForKeyViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('array', 'array', 'The array to extract the value from', true);
         $this->registerArgument('key', 'string', 'The key to extract the value for', true);
     }
 
-    /**
-     * @return string|int|bool|array
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render()
+    {
         $result = null;
 
-        if ((is_int($arguments['key']) || is_string($arguments['key'])) && ($arguments['array'] && array_key_exists($arguments['key'], $arguments['array']))) {
-            $result = $arguments['array'][$arguments['key']];
+        if ((is_int($this->arguments['key']) || is_string($this->arguments['key'])) && ($this->arguments['array'] && array_key_exists($this->arguments['key'], $this->arguments['array']))) {
+            $result = $this->arguments['array'][$this->arguments['key']];
         }
 
         return $result;

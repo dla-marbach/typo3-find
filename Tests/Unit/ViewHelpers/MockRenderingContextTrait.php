@@ -26,6 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\MockObject\Exception;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
@@ -33,13 +34,13 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
  */
 trait MockRenderingContextTrait
 {
-    /**
-     * @var RenderingContextInterface
-     */
-    protected $renderingContextMock;
+    protected RenderingContextInterface $renderingContextMock;
 
+    /**
+     * @throws Exception
+     */
     protected function createRenderingContextMock(): void
     {
-        $this->renderingContextMock = $this->getMockBuilder(RenderingContextInterface::class)->getMock();
+        $this->renderingContextMock = $this->createMock(RenderingContextInterface::class);
     }
 }

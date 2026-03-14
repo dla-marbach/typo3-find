@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * FORK-ABWEICHUNG: Diese Datei existiert im Original (subugoe/typo3-find) nicht.
+ * Sie stellt einen Hook fuer die RealURL-Extension bereit, die fuer die URL-Umschreibung
+ * in aelteren TYPO3-Versionen verwendet wurde. In TYPO3 v12 wird stattdessen das integrierte
+ * Site-Handling/Routing verwendet. Diese Datei wird voraussichtlich nicht mehr benoetigt
+ * und kann in einer zukuenftigen Version entfernt werden.
+ */
+
 namespace Subugoe\Find\Hooks;
 
 /* * *************************************************************

@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -38,28 +37,22 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayFirstViewHelper extends AbstractViewHelper
 {
-    /**
-     * Register arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('array', 'array|string', 'the array to return the first value of', false, null);
     }
 
-    /**
-     * @return string|int|bool|array
-     */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render()
     {
         $result = null;
 
-        $array = $arguments['array'];
-        if (null === $array) {
-            $array = $renderChildrenClosure();
+        $array = $this->arguments['array'];
+        if ($array === null) {
+            $array = $this->renderChildren();
         }
 
-        if (is_array($array) && [] !== $array) {
+        if (is_array($array) && $array !== []) {
             $arrayKeys = array_keys($array);
             $firstKey = $arrayKeys[0];
             $result = $array[$firstKey];

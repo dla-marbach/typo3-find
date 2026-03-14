@@ -27,15 +27,7 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-/**
- * Interface RendererInterface.
- */
 interface RendererInterface
 {
-    /**
-     * @param $items
-     *
-     * @return mixed
-     */
     public function renderItems($items);
 }

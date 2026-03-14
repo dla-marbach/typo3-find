@@ -27,20 +27,22 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Logic\AndViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Tests for the AND viewhelper.
  */
-class AndViewHelperTest extends ViewHelperBaseTestcase
+class AndViewHelperTest extends UnitTestCase
 {
     /**
      * @var AndViewHelper
      */
     protected $fixture;
 
-    public function conditionProvider(): array
+    public static function conditionProvider(): array
     {
         return [
             [
@@ -95,17 +97,12 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(AndViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = new AndViewHelper();
     }
 
-    /**
-     * @test
-     * @dataProvider conditionProvider
-     */
-    public function conditionIsTrue($conditions, $expected)
+    #[Test]
+    #[DataProvider(methodName: 'conditionProvider')]
+    public function conditionIsTrue(array $conditions, bool $expected): void
     {
         $this->fixture->setArguments([
             'conditions' => $conditions,

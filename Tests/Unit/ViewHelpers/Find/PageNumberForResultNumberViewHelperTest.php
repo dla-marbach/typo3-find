@@ -26,38 +26,26 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Find\PageNumberForResultNumberViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test for PageNumberForResultNumber ViewHelper.
  */
-class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
+class PageNumberForResultNumberViewHelperTest extends UnitTestCase
 {
-    use MockRenderingContextTrait;
-
-    /**
-     * @var PageNumberForResultNumberViewHelper
-     */
-    public $fixture;
+    public PageNumberForResultNumberViewHelper $fixture;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(PageNumberForResultNumberViewHelper::class)
-            ->setMethods(['renderChildren'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
-        $this->createRenderingContextMock();
-        $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
+        $this->fixture = new PageNumberForResultNumberViewHelper();
     }
 
-    /**
-     * @test
-     */
-    public function pageNumberIsCorrectlyCalculated()
+    #[Test]
+    public function pageNumberIsCorrectlyCalculated(): void
     {
         $resultNumber = 55;
         $resultsPerPage = 20;
@@ -71,10 +59,8 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function pageNumerWhenResultIsZero()
+    #[Test]
+    public function pageNumerWhenResultIsZero(): void
     {
         $resultNumber = 0;
         $resultsPerPage = 20;
@@ -89,10 +75,8 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function divisionByZeroIsCaught()
+    #[Test]
+    public function divisionByZeroIsCaught(): void
     {
         $resultNumber = 0;
         $resultsPerPage = 0;
@@ -106,7 +90,8 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    public function pageNumberFallBackForZeroResultsPerPage()
+    #[Test]
+    public function pageNumberFallBackForZeroResultsPerPage(): void
     {
         $resultNumber = 55;
         $resultsPerPage = 0;

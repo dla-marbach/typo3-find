@@ -29,44 +29,33 @@ namespace Subugoe\Find\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Determines whether a facet is selected or not.
+ * FORK-ABWEICHUNG: Dieser ViewHelper existiert im Original (subugoe/typo3-find) nicht.
+ * Er wird im Fork fuer die Ajax-Facetten-Funktionalitaet benoetigt, um ein Array
+ * von aktiven Facetten in einen URL-kodierten Query-String umzuwandeln, der dann
+ * fuer asynchrone Facetten-Requests verwendet wird.
+ *
+ * Converts a facet array to URL parameters for use in Ajax facet requests.
  */
 class ArrayToUrlParameterViewHelper extends AbstractViewHelper
 {
-    /**
-     * Register arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('array', 'array', 'Info array', true);
     }
 
-    /**
-     * @return bool
-     */
-
-    /**
-     * @return string|int|bool|array
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render(): string
+    {
         $newArray = [];
-        foreach ($arguments['array'] as $facetId => $facetArray) {
+        foreach ($this->arguments['array'] as $facetId => $facetArray) {
             foreach ($facetArray as $facetTerm => $facetConfig) {
                 $newArray['activeFacets']['facet'][$facetId][$facetTerm] = 1;
             }
         }
 
         return http_build_query($newArray);
-
-        return false;
     }
 }

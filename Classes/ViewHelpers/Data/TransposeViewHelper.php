@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -37,55 +36,45 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class TransposeViewHelper extends AbstractViewHelper
 {
-    /**
-     * Register arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('arrays', 'array', 'Array with keys: field names and values: arrays', false, []);
         $this->registerArgument('name', 'string', 'Variable name to assign the new array to', true);
     }
 
-    /**
-     * @return string Rendered string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render(): array
+    {
         $arrays = [];
         $iterationArray = [];
         // Strip non-numeric keys in the value arrays.
-        foreach ($arguments['arrays'] as $key => $array) {
-            $iterationArray = (null !== $array) ? $array : [];
+        foreach ($this->arguments['arrays'] as $key => $array) {
+            $iterationArray = $array ?? [];
             $arrays[$key] = array_values($iterationArray);
         }
 
         if ($iterationArray && static::identicalLengths($arrays)) {
             $rows = [];
             foreach (array_keys($iterationArray) as $rowIndex) {
-                $row = [];
-                foreach ($arrays as $key => $array) {
-                    $row[$key] = $array[$rowIndex];
-                }
+                $row = array_map(fn(array $array): mixed => $array[$rowIndex], $arrays);
 
                 $rows[] = $row;
             }
 
-            $variableName = $arguments['name'];
-            $renderingContext->getVariableProvider()->add($variableName, $rows);
-            $output = $renderChildrenClosure();
-            $renderingContext->getVariableProvider()->remove($variableName);
+            $variableName = $this->arguments['name'];
+            $this->renderingContext->getVariableProvider()->add($variableName, $rows);
+            $output = $this->renderChildren();
+            $this->renderingContext->getVariableProvider()->remove($variableName);
         } else {
             $info = [];
-            foreach ($arguments['arrays'] as $key => $array) {
-                $info[] = $key.': '.count($array);
+            foreach ($this->arguments['arrays'] as $key => $array) {
+                $info[] = $key . ': ' . count($array);
             }
 
-            $output = 'The arrays passed in the »arrays« argument do not have identical numbers of values: ('.implode(', ',
-                $info).')';
+            $output = 'The arrays passed in the »arrays« argument do not have identical numbers of values: (' . implode(
+                ', ',
+                $info
+            ) . ')';
         }
 
         return $output;
@@ -95,16 +84,14 @@ class TransposeViewHelper extends AbstractViewHelper
      * Returns TRUE if all elements of $arrays have the same count(), FALSE otherwise.
      *
      * @param array $arrays array of arrays
-     *
-     * @return bool
      */
-    protected static function identicalLengths($arrays)
+    protected static function identicalLengths(array $arrays): bool
     {
         $result = true;
 
         $length = null;
         foreach ($arrays as $array) {
-            if (null === $length) {
+            if ($length === null) {
                 $length = count($array);
             } elseif ($length !== count($array)) {
                 $result = false;

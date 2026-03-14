@@ -26,7 +26,6 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -36,40 +35,40 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class RegexpViewHelper extends AbstractViewHelper
 {
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('string', 'string',
-            'The string to work on; if not given, the content of the tag is used', false, null);
+        $this->registerArgument(
+            'string',
+            'string',
+            'The string to work on; if not given, the content of the tag is used',
+            false,
+            null
+        );
         $this->registerArgument('match', 'string', 'The regular expression used for matching', true);
         $this->registerArgument('replace', 'string', 'The regular expression replacement string', false, null);
-        $this->registerArgument('useMBEreg', 'boolean', 'Whether to use mb_ereg_replace() instead of preg_replace()',
-            false, false);
+        $this->registerArgument(
+            'useMBEreg',
+            'boolean',
+            'Whether to use mb_ereg_replace() instead of preg_replace()',
+            false,
+            false
+        );
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $input = $arguments['string'];
-        if (null === $input) {
-            $input = $renderChildrenClosure();
+    public function render(): string|array|false|null|int
+    {
+        $input = $this->arguments['string'];
+        if ($input === null) {
+            $input = $this->renderChildren();
         }
 
-        $result = null;
-        if (null === $arguments['replace']) {
-            $result = preg_match($arguments['match'], $input);
-        } elseif (!$arguments['useMBEreg']) {
-            $result = preg_replace($arguments['match'], $arguments['replace'], $input);
+        if ($this->arguments['replace'] === null) {
+            $result = preg_match($this->arguments['match'], (string)$input);
+        } elseif (!$this->arguments['useMBEreg']) {
+            $result = preg_replace($this->arguments['match'], $this->arguments['replace'], (string)$input);
         } else {
-            $result = mb_ereg_replace($arguments['match'], $arguments['replace'], $input);
+            $result = mb_ereg_replace((string)$this->arguments['match'], $this->arguments['replace'], (string)$input);
         }
 
         return $result;

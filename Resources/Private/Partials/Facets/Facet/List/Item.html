@@ -26,7 +26,7 @@
 	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}">
 		<f:then>
 			<f:link.action
-				addQueryString="untrusted"
+				addQueryString="TRUE"
 				argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets, mode:'remove')}"
 				section="{settings.jumpToID}"
 				class="icon-cancel facetRemove internal"
@@ -34,7 +34,7 @@
 		</f:then>
 		<f:else>
 			<f:link.action
-				addQueryString="untrusted"
+				addQueryString="TRUE"
 				arguments="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}"
 				argumentsToBeExcludedFromQueryString="{0:'{config.prefixID}[page]'}"
 				section="{settings.jumpToID}"

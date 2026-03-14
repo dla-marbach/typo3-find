@@ -29,25 +29,17 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class AbstractRenderer.
- */
 abstract class AbstractRenderer
 {
     protected array $prefixes = [];
 
     protected array $usedPrefixes = [];
 
-    /**
-     * @param $type
-     *
-     * @return object
-     */
     public static function instantiateSubclassForType($type)
     {
-        if ('rdf' === $type) {
+        if ($type === 'rdf') {
             $instance = GeneralUtility::makeInstance(RDFRenderer::class);
-        } elseif ('json-ld' === $type) {
+        } elseif ($type === 'json-ld') {
             $instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
         } else {
             $instance = GeneralUtility::makeInstance(TurtleRenderer::class);
@@ -56,10 +48,7 @@ abstract class AbstractRenderer
         return $instance;
     }
 
-    /**
-     * @param $prefixes
-     */
-    public function setPrefixes($prefixes)
+    public function setPrefixes(array $prefixes): void
     {
         $this->prefixes = $prefixes;
     }

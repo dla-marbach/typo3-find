@@ -27,13 +27,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\CSVLineViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * CSV line viewhelper test.
  */
-class CSVLineViewHelperTest extends ViewHelperBaseTestcase
+class CSVLineViewHelperTest extends UnitTestCase
 {
     /**
      * @var CSVLineViewHelper
@@ -44,20 +45,15 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(CSVLineViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = new CSVLineViewHelper();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function arrayIsRenderedAsCommaSeparatedValue(): void
     {
         $data = ['hrdr', 'behedeti', 'chub'];
         $fieldDelimiter = ',';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -65,18 +61,16 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
             'fieldEnclosure' => $fieldEnclosure,
         ]);
 
-        $expected = 'hrdr,behedeti,chub'.PHP_EOL;
+        $expected = 'hrdr,behedeti,chub' . PHP_EOL;
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function specifyingADelimiterWorks(): void
     {
         $data = ['hrdr', 'behedeti', 'chub'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -84,18 +78,16 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
             'fieldEnclosure' => $fieldEnclosure,
         ]);
 
-        $expected = 'hrdr;behedeti;chub'.PHP_EOL;
+        $expected = 'hrdr;behedeti;chub' . PHP_EOL;
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function valuesWithSpacesAreEnclosed(): void
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -103,18 +95,16 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
             'fieldEnclosure' => $fieldEnclosure,
         ]);
 
-        $expected = '"hrdr horus";behedeti;"chub budan"'.PHP_EOL;
+        $expected = '"hrdr horus";behedeti;"chub budan"' . PHP_EOL;
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function specifyingAnEnclosureWrapsTheElements(): void
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '//';
+        $fieldEnclosure = '/';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -122,7 +112,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
             'fieldEnclosure' => $fieldEnclosure,
         ]);
 
-        $expected = '/hrdr horus/;behedeti;/chub budan/'.PHP_EOL;
+        $expected = '/hrdr horus/;behedeti;/chub budan/' . PHP_EOL;
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

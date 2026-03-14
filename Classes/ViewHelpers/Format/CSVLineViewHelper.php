@@ -26,7 +26,6 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -36,10 +35,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class CSVLineViewHelper extends AbstractViewHelper
 {
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('data', 'array', 'The array to output as CSV line', false, null);
@@ -47,22 +43,16 @@ class CSVLineViewHelper extends AbstractViewHelper
         $this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', false, '"');
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $data = $arguments['data'];
-        if (null === $data) {
-            $data = $renderChildrenClosure();
+    public function render(
+    ): false|string {
+        $data = $this->arguments['data'];
+        if ($data === null) {
+            $data = $this->renderChildren();
         }
 
         // Write CSV to pseudo-file as PHP cannot write it directly to a string.
         $fp = fopen('php://temp', 'r+');
-        fputcsv($fp, $data, $arguments['fieldDelimiter'], $arguments['fieldEnclosure']);
+        fputcsv($fp, $data, $this->arguments['fieldDelimiter'], $this->arguments['fieldEnclosure']);
         rewind($fp);
         $result = fgets($fp);
         fclose($fp);

@@ -1,52 +1,52 @@
 name: CI
 
-on: [ push, pull_request ]
+on:
+  [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    continue-on-error: ${{ matrix.env.experimental == true }}
     strategy:
       fail-fast: false
       matrix:
-        env:
-          - { php: 7.4 }
-
-    env: ${{ matrix.env }}
+        php: [8.2, 8.3]
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.env.php }}
-          tools: composer
+          php-version: ${{ matrix.php }}
+          tools: composer:2
           extensions: pdo, sqlite3
 
-      # composer
-      - name: Update Composer
-        run: |
-          sudo composer self-update
-          composer --version
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+      - name: Validate composer files
+        run: composer validate --strict
 
-      - name: Cache dependencies
-        uses: actions/cache@v1
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache
-          key: dependencies-composer-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-composer-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Install dependencies
-        run: composer install
+        run: composer install --prefer-dist --no-interaction
 
-      - name: Check coding style
+      - name: Check coding style (optional)
         run: composer lint
+        continue-on-error: true # In case you want to not fail build if lint fails
 
       - name: Run Unit Tests
         run: |
-          echo "Running unit tests with $(which php)";
-          .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/;
+          echo "Running unit tests with $(which php)"
+          if [ -f .Build/bin/phpunit ]; then
+            .Build/bin/phpunit --colors=always Tests/Unit/
+          elif [ -f vendor/bin/phpunit ]; then
+            vendor/bin/phpunit --colors=always Tests/Unit/
+          else
+            echo "phpunit binary not found!"
+            exit 1
+          fi

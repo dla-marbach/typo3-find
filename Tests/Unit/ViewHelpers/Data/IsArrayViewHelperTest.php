@@ -26,69 +26,59 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test for IsArray ViewHelper.
  */
-class IsArrayViewHelperTest extends ViewHelperBaseTestcase
+class IsArrayViewHelperTest extends UnitTestCase
 {
     /**
      * @var IsArrayViewHelper
      */
-    public $fixture;
+    public \PHPUnit\Framework\MockObject\MockObject $fixture;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(IsArrayViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['renderChildren'])
             ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
-    /**
-     * @test
-     */
-    public function arrayIsInterpretedAsArray()
+    #[Test]
+    public function arrayIsInterpretedAsArray(): void
     {
         $this->fixture->setArguments(['subject' => ['hrdr']]);
         self::assertTrue($this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function intIsNotInterpretedAsArray()
+    #[Test]
+    public function intIsNotInterpretedAsArray(): void
     {
         $this->fixture->setArguments(['subject' => 667]);
         self::assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function objectsAreNotInterpretedAsArray()
+    #[Test]
+    public function objectsAreNotInterpretedAsArray(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->fixture->setArguments(['subject' => $this->fixture]);
         self::assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function stringsAreNotInterpretedAsArray()
+    #[Test]
+    public function stringsAreNotInterpretedAsArray(): void
     {
         $this->fixture->setArguments(['subject' => 'hrdr']);
         self::assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function nullIsNotInterpretedAsArray()
+    #[Test]
+    public function nullIsNotInterpretedAsArray(): void
     {
         $this->fixture->setArguments(['subject' => null]);
         self::assertFalse($this->fixture->initializeArgumentsAndRender());

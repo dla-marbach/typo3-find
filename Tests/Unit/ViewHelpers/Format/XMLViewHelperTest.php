@@ -27,23 +27,22 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\XMLViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Tests for the XML formatting viewhelper.
  */
-class XMLViewHelperTest extends ViewHelperBaseTestcase
+class XMLViewHelperTest extends UnitTestCase
 {
     /**
      * @var XMLViewHelper
      */
     protected $fixture;
 
-    /**
-     * @return array
-     */
-    public function stringProvider()
+    public static function stringProvider(): array
     {
         return [
             [
@@ -55,26 +54,21 @@ class XMLViewHelperTest extends ViewHelperBaseTestcase
     <c/>
   </b>
   <b>d</b>
-</a>'.PHP_EOL,
+</a>' . PHP_EOL,
             ],
-            ['<a><b><c/></b><b>d</b></a>', true, '<a><b><c></c></b><b>d</b></a>'.PHP_EOL],
+            ['<a><b><c/></b><b>d</b></a>', true, '<a><b><c></c></b><b>d</b></a>' . PHP_EOL],
         ];
     }
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(XMLViewHelper::class)
-            ->setMethods(['renderChildren'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(XMLViewHelper::class, ['renderChildren']);
     }
 
-    /**
-     * @test
-     * @dataProvider stringProvider
-     */
-    public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected)
+    #[Test]
+    #[DataProvider(methodName: 'stringProvider')]
+    public function xmlIsCorrectlyFormatted(string $string, bool $htmloutput, string $expected): void
     {
         $this->fixture->method('renderChildren')->willReturn($string);
 

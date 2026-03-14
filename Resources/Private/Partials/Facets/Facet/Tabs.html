@@ -15,7 +15,7 @@
 			then:'facetActive'
 		)}">
 			<f:link.action
-				addQueryString="untrusted"
+				addQueryString="TRUE"
 				argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, activeFacets:config.activeFacets, mode:'remove')}"
 				arguments="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}"
 				section="{settings.jumpToID}"

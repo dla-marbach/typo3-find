@@ -6,7 +6,7 @@ namespace Subugoe\Find\Utility;
  *  Copyright notice
  *
  *  (c) 2015 Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
- *      Goettingen State Library
+ *      Göttingen State Library
  *
  *  All rights reserved
  *
@@ -27,65 +27,75 @@ namespace Subugoe\Find\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
-
 /**
- * Utility for JavaScripts, Views, ...
+ * Utility for JavaScript and view helpers in the frontend.
  */
 class FrontendUtility
 {
     /**
-     * Stores information about the active query in the »underlyingQuery« JavaScript variable.
+     * Generates a JS assignment for the active query and its paging/facet data as `underlyingQuery` variable.
      *
-     * @param array    $query
-     * @param int|null $position  of the record in the result list
-     * @param array    $arguments overrides $this->requestArguments if set
+     * @param mixed        $query      Query parameter(s) (string or array, depending on your usage)
+     * @param array        $settings   Complete plugin or extension settings
+     * @param int|null     $position   Position in result list (1-based, null if not applicable)
+     * @param array        $arguments  Arguments array (request arguments or override)
+     * @return string                  JS assignment or empty string
+     *
+     * @throws \JsonException
      */
-    public static function addQueryInformationAsJavaScript(array $query, array $settings, $position = null, $arguments = []): string
-    {
-        if ($settings['paging']['detailPagePaging']) {
-//            $scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');
-//            $scriptTag->addAttribute('type', 'text/javascript');
-
-            if (array_key_exists('underlyingQuery', $arguments)) {
+    public static function addQueryInformationAsJavaScript(
+        $query,
+        array $settings,
+        ?int $position = null,
+        array $arguments = []
+    ): string {
+        if (!empty($settings['paging']['detailPagePaging'])) {
+            // If the arguments contain an 'underlyingQuery' sub-array, use it
+            if (array_key_exists('underlyingQuery', $arguments) && is_array($arguments['underlyingQuery'])) {
                 $arguments = $arguments['underlyingQuery'];
             }
 
             $underlyingQuery = ['q' => $query];
-            if (array_key_exists('facet', $arguments)) {
+            if (!empty($arguments['facet'])) {
                 $underlyingQuery['facet'] = $arguments['facet'];
             }
 
-            if (null !== $position) {
+            if ($position !== null) {
                 $underlyingQuery['position'] = $position;
             }
 
             if (isset($arguments['count'])) {
                 $underlyingQuery['count'] = $arguments['count'];
+            } elseif (isset($settings['count'])) {
+                $underlyingQuery['count'] = $settings['count'];
             }
 
             if (isset($arguments['sort'])) {
                 $underlyingQuery['sort'] = $arguments['sort'];
             }
 
-//            $scriptTag->setContent('var underlyingQuery = '.json_encode($underlyingQuery).';');
-
-            return 'var underlyingQuery = '.json_encode($underlyingQuery).';';
-
-//            return $scriptTag->render();
+            return json_encode($underlyingQuery, JSON_THROW_ON_ERROR);
         }
 
         return '';
     }
 
     /**
-     * @param $underlyingQueryInfo
+     * Calculates index values for detail navigation based on a position key.
      *
-     * @return array
+     * @param array $underlyingQueryInfo Array including at least a 'position' key (1-based).
+     * @return array Index info: positionIndex, previousIndex, nextIndex, resultIndexOffset
      */
-    public static function getIndexes($underlyingQueryInfo)
+    public static function getIndexes(array $underlyingQueryInfo): array
     {
-        return ['positionIndex' => $underlyingQueryInfo['position'] - 1, 'previousIndex' => max([$underlyingQueryInfo['position'] - 2, 0]), 'nextIndex' => $underlyingQueryInfo['position'], 'resultIndexOffset' => (0 === $underlyingQueryInfo['position'] - 1) ? 0 : 1];
+        // Default to position=1 if missing
+        $position = (int)($underlyingQueryInfo['position'] ?? 1);
+
+        return [
+            'positionIndex' => $position - 1,
+            'previousIndex' => max($position - 2, 0),
+            'nextIndex' => $position,
+            'resultIndexOffset' => ($position - 1 === 0) ? 0 : 1,
+        ];
     }
 }

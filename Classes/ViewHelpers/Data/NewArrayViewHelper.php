@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -39,58 +38,54 @@ class NewArrayViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
-    /**
-     * Register arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('name', 'string', 'name of template variable to assign the result to', false, null);
+        $this->registerArgument('name', 'string', 'name of template variable to assign the result to');
         $this->registerArgument('array', 'array', 'existing array to add the new keys and values to', false, []);
 
-        $this->registerArgument('keys', 'array', 'array of keys', false, null);
+        $this->registerArgument('keys', 'array', 'array of keys');
         $this->registerArgument('values', 'array', 'array of values', false, []);
 
-        $this->registerArgument('global', 'boolean',
-            'whether to make the variable available to all templates coming afterwards', false, false);
+        $this->registerArgument(
+            'global',
+            'boolean',
+            'whether to make the variable available to all templates coming afterwards',
+            false,
+            false
+        );
         $this->registerArgument('omitEmptyFields', 'boolean', 'omits empty fields', false, false);
     }
 
-    /**
-     * @return array
-     */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render()
     {
-        $result = $arguments['array'];
+        $result = $this->arguments['array'] ?? [];
 
-        if ($arguments['keys']) {
-            if (count($arguments['keys']) === count($arguments['values'])) {
-                foreach ($arguments['keys'] as $index => $key) {
-                    $value = $arguments['values'][$index];
-                    if (!$arguments['omitEmptyFields'] || $value) {
+        if ($this->arguments['keys']) {
+            if (count($this->arguments['keys']) === count($this->arguments['values'])) {
+                foreach ($this->arguments['keys'] as $index => $key) {
+                    $value = $this->arguments['values'][$index];
+                    if (!$this->arguments['omitEmptyFields'] || $value) {
                         $result[$key] = $value;
                     }
                 }
-            } else {
-                $result = 'newArray View Helper: Number of keys and values must be the same.'.PHP_EOL.print_r($arguments,
-                    true);
             }
         } else {
-            foreach ($arguments['values'] as $value) {
+            foreach ($this->arguments['values'] as $value) {
                 $result[] = $value;
             }
         }
 
-        $variableName = $arguments['name'];
-        if (null !== $variableName) {
-            if ($renderingContext->getVariableProvider()->exists($variableName)) {
-                $renderingContext->getVariableProvider()->remove($variableName);
+        $variableName = $this->arguments['name'] ?? null;
+        if ($variableName !== null) {
+            if ($this->renderingContext->getVariableProvider()->exists($variableName)) {
+                $this->renderingContext->getVariableProvider()->remove($variableName);
             }
 
-            $renderingContext->getVariableProvider()->add($variableName, $result);
-            $result = $renderChildrenClosure();
-            if (true !== $arguments['global']) {
-                $renderingContext->getVariableProvider()->remove($variableName);
+            $this->renderingContext->getVariableProvider()->add($variableName, $result);
+            $result = $this->renderChildren();
+            if ($this->arguments['global'] !== true) {
+                $this->renderingContext->getVariableProvider()->remove($variableName);
             }
         }
 

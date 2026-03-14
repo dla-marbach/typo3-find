@@ -1,15 +1,34 @@
-@charset "UTF-8";
-/* Default SCSS for TYPO3 Extension »find« . */
 .tx_find {
-  /* error message */
-  /* search form */
-  /* result list */
-  /* facets */
-  /* page browser list view */
-  /* result count */
-  /* page browser single item view */
-  /* field list on single item view */
+  --color-current: #000;
+  --color-inactive: #bbb;
+  --color-textInverted: #fff;
+  --color-backgroundActive: #eef;
+  --color-highlight: #f00;
+
+  --highlightBorder: #b00;
+  --downlight: #666;
+  --downlightInverted: #ddd;
+  --tabSelected: #263476;
+  --borderA1: #b3b3b3;
+  --borderA2: #d2d2d2;
+  --backgroundA: #f3f5f9;
+  --textA: #333;
+  --borderB1: #d4d4d4;
+  --borderB2: #b4b4b4;
+  --backgroundB: #f3f6fb;
+  --backgroundBActive: #e7e9ed;
+  --textB: #555;
 }
+
+.tx-find .icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
 .tx_find .clear {
   clear: both;
   display: block;
@@ -18,62 +37,76 @@
   width: 0;
   height: 0;
 }
+
 .tx_find .hidden {
   display: none;
 }
+
 .tx_find article.detail {
   clear: both;
 }
+
 .tx_find em.highlight {
   font-weight: bold;
-  color: #f00;
+  color: var(--color-highlight);
 }
+
 .tx_find section.error {
   margin-bottom: 1em;
   padding: 1em;
   border: 2px solid red;
 }
+
 .tx_find form {
   position: relative;
   line-height: 150%;
 }
+
 .tx_find form .formFields {
   float: left;
 }
+
 .tx_find form .fieldContainer {
   float: left;
   clear: left;
 }
+
 .tx_find form .fieldContainer .fieldLabel {
   display: block;
   float: left;
   width: 110px;
   text-align: right;
 }
+
 .tx_find form .fieldContainer .inputContainer {
   display: block;
   margin-left: 125px;
   margin-bottom: 2px;
   line-height: 133%;
 }
+
 .tx_find form .fieldContainer input {
   padding: 2px;
-  border-color: #b3b3b3 #d2d2d2 #d2d2d2 #b3b3b3;
+  border-color: var(--borderA1) var(--borderA2) var(--borderA2) var(--borderA1);
   border-style: solid;
   border-width: 1px;
-  color: #333;
-  background: #f3f5f9;
+  color: var(--textA);
+  background: var(--backgroundA);
 }
+
 .tx_find form .fieldContainer input.noleftmargin {
   margin-left: 0;
 }
+
 .tx_find form .fieldContainer select {
   position: relative;
   top: 2px;
 }
+
 .tx_find form .field-default .fieldLabel {
   display: none;
 }
+
 .tx_find form .field-default input {
   width: 400px;
   height: 30px;
@@ -81,33 +114,38 @@
   padding: 4px;
   font-size: 100%;
 }
+
 .tx_find form .fieldType-Text .alternate label {
   display: inline-block;
   float: none;
   width: auto;
   text-align: left;
 }
+
 .tx_find form .fieldType-Range input {
   width: 6em;
 }
+
 .tx_find form .controls {
   float: left;
   bottom: 0;
 }
-.tx_find form .fieldType-search input:-moz-placeholder {
+
+.tx_find form .fieldType-search input::-moz-placeholder {
   color: #999;
 }
+
 .tx_find form .submit {
   display: block;
   float: left;
   height: 30px;
-  background: url(../button_shade_large.png) repeat-x scroll 0 100% #f3f6fb;
+  background: linear-gradient(to bottom, var(--borderB1) 0%, #D7DDE8 51%);
   border-style: solid;
   border-width: 1px;
-  border-color: #d4d4d4 #b4b4b4 #b4b4b4 #d4d4d4;
-  border-radius: 3px 3px 3px 3px;
-  border-right: 1px solid #b4b4b4;
-  color: #555;
+  border-color: var(--borderB1) var(--borderB2) var(--borderB2) var(--borderB1);
+  border-radius: 3px;
+  border-right: 1px solid var(--borderB2);
+  color: var(--textB);
   font-weight: bold;
   line-height: 100%;
   padding: 3px 12px;
@@ -117,208 +155,262 @@
   text-shadow: 0 1px rgba(255, 255, 255, 0.75);
   text-transform: uppercase;
 }
+
 .tx_find form .submit:active {
-  background-image: url(../button_shade_large_click.png);
-  background-color: #e7e9ed;
+  background: linear-gradient(to top, var(--borderB1) 0%, #D7DDE8 51%);
 }
+
 .tx_find form a.extendedSearch {
   line-height: 30px;
   margin-left: 0.5em;
 }
+
 .tx_find form .field-mode-extended {
   display: none;
 }
-.tx_find form .sortOrder, .tx_find form .resultCountPicker {
+
+.tx_find form .sortOrder,
+.tx_find form .resultCountPicker {
   float: right;
   margin: 5px 0 0 0.5em;
 }
-.tx_find form .sortOrder label, .tx_find form .resultCountPicker label {
+
+.tx_find form .sortOrder label,
+.tx_find form .resultCountPicker label {
   width: auto;
 }
-.tx_find form .sortOrder select, .tx_find form .resultCountPicker select {
+
+.tx_find form .sortOrder select,
+.tx_find form .resultCountPicker select {
   position: relative;
   top: 2px;
   margin-left: 3px;
 }
+
 .tx_find form.search-extended .field-mode-extended {
   display: block;
 }
+
 .tx_find .results {
   position: relative;
   clear: left;
   padding-top: 2em;
 }
+
 .tx_find .results .navigation {
   margin-bottom: 2em;
   clear: both;
 }
+
 .tx_find .results ol.resultList {
   margin: 0 220px 0 0;
   padding-left: 3em;
 }
+
 .tx_find .results ol.resultList h1 {
   margin: 0;
   font-size: 133%;
   line-height: 133%;
 }
+
 .tx_find .results ol.resultList li:target {
-  background: #eef;
+  background: var(--color-backgroundActive);
   border-radius: 7px;
   transition: background 0.5s ease-in-out;
 }
+
 .tx_find .facets {
   float: right;
   clear: right;
   width: 200px;
 }
-.tx_find div.facet, .tx_find .facet-type-Tabs {
+
+.tx_find div.facet {
   margin-bottom: 2em;
 }
-.tx_find div.facet h1, .tx_find .facet-type-Tabs h1 {
+
+.tx_find div.facet h1 {
   margin: 0;
   font-size: 100%;
   font-weight: bold;
   text-transform: uppercase;
 }
-.tx_find div.facet .facetSearch, .tx_find .facet-type-Tabs .facetSearch {
+
+.tx_find div.facet .facetSearch {
   margin: 1em 0 0 0;
 }
-.tx_find div.facet ol, .tx_find .facet-type-Tabs ol {
+
+.tx_find div.facet ol {
   list-style-type: none;
   margin: 1em 0 0 0;
   padding-left: 0;
   line-height: 150%;
 }
-.tx_find div.facet ol.autocomplete, .tx_find .facet-type-Tabs ol.autocomplete {
+
+.tx_find div.facet ol.autocomplete {
   margin: 0.5em 0 0 0;
 }
-.tx_find div.facet .facetList li, .tx_find .facet-type-Tabs .facetList li, .tx_find .facet-type-Tabs .facetList ol li.facetActive, .tx_find .facet-type-Tabs ol .facetList li.facetActive {
+
+.tx_find div.facet .facetList li {
   margin: 0;
   padding-left: 1em;
   text-indent: -1em;
 }
-.tx_find div.facet a, .tx_find .facet-type-Tabs a {
+
+.tx_find div.facet a {
   display: block;
 }
-.tx_find div.facet .facetCount, .tx_find .facet-type-Tabs .facetCount {
-  color: #666;
+
+.tx_find div.facet .facetCount {
+  color: var(--downlight);
   font-size: 80%;
 }
-.tx_find div.facet .facetActive, .tx_find .facet-type-Tabs .facetActive {
+
+.tx_find div.facet .facetActive {
   display: block;
-  background: #f00;
+  background: var(--color-highlight);
   border-radius: 5px;
-  border: 1px solid #b00;
+  border: 1px solid var(--highlightBorder);
   line-height: 150%;
   font-weight: bold;
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
 }
-.tx_find div.facet .facetList .facetActive, .tx_find .facet-type-Tabs .facetList .facetActive {
+
+.tx_find div.facet .facetList .facetActive {
   padding: 0;
   text-indent: 0;
   margin-bottom: 0.25em;
 }
-.tx_find div.facet .facetActive a, .tx_find .facet-type-Tabs .facetActive a {
+
+.tx_find div.facet .facetActive a {
   padding-left: 0.2em;
-  color: #fff;
+  color: var(--color-textInverted);
 }
-.tx_find div.facet .facetActive a:before, .tx_find .facet-type-Tabs .facetActive a:before {
+
+.tx_find div.facet .facetActive a:before {
   margin-right: 0.3em;
   margin-left: 0.1em;
 }
-.tx_find div.facet .facetShowAll a, .tx_find .facet-type-Tabs .facetShowAll a {
+
+.tx_find div.facet .facetShowAll a {
   font-style: italic;
-  color: #666;
+  color: var(--downlight);
 }
-.tx_find div.facet .facetShowAll a:hover, .tx_find .facet-type-Tabs .facetShowAll a:hover {
-  color: #000;
+
+.tx_find div.facet .facetShowAll a:hover {
+  color: var(--color-current);
 }
-.tx_find div.facet .facetHideHidden a, .tx_find .facet-type-Tabs .facetHideHidden a {
+
+.tx_find div.facet .facetHideHidden a {
   font-style: italic;
-  color: #666;
+  color: var(--downlight);
 }
-.tx_find div.facet .facetHideHidden a:hover, .tx_find .facet-type-Tabs .facetHideHidden a:hover {
-  color: #000;
+
+.tx_find div.facet .facetHideHidden a:hover {
+  color: var(--color-current);
 }
-.tx_find div.facet .facetHistogram-container .facetActive, .tx_find .facet-type-Tabs .facetHistogram-container .facetActive {
+
+.tx_find div.facet .facetHistogram-container .facetActive {
   margin-bottom: 0.5em;
 }
-.tx_find div.facet .histogram, .tx_find .facet-type-Tabs .histogram {
+
+.tx_find div.facet .histogram {
   position: relative;
   left: -13px;
 }
-.tx_find div.facet .flot-x-axis .flot-tick-label:first-child, .tx_find .facet-type-Tabs .flot-x-axis .flot-tick-label:first-child {
+
+.tx_find div.facet .flot-x-axis .flot-tick-label:first-child {
   left: 13px !important;
 }
+
 .tx_find .facet-type-Map .mapContainer {
   height: 150px;
 }
+
 .tx_find .facet-type-Tabs h1 {
   display: none;
 }
+
 .tx_find .facet-type-Tabs ol {
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid var(--color-inactive);
 }
-.tx_find .facet-type-Tabs ol li, .tx_find .facet-type-Tabs ol li.facetActive {
+
+.tx_find .facet-type-Tabs ol li {
   display: inline-block;
   margin: 0;
   border-radius: 10px 10px 0 0;
   border: 0 none;
 }
-.tx_find .facet-type-Tabs ol li a, .tx_find .facet-type-Tabs ol li.facetActive a {
+
+.tx_find .facet-type-Tabs ol li a {
   padding: 1em 0.5em 0 0.5em;
   display: inline-block;
 }
+
 .tx_find .facet-type-Tabs ol li.facetActive {
-  background: #263476;
-  color: #fff;
+  background: var(--tabSelected);
+  color: var(--color-textInverted);
 }
+
 .tx_find .facet-type-Tabs ol li.facetActive .facetCount {
-  color: #ddd;
+  color: var(--downlightInverted);
 }
+
 .tx_find .listPager {
   margin-right: 220px;
   text-align: center;
 }
+
 .tx_find .listPager * {
   margin: 0;
   padding: 0;
 }
+
 .tx_find .listPager ol {
   display: inline;
   list-style-type: none;
 }
-.tx_find .listPager ol li, .tx_find .listPager .facet-type-Tabs ol li.facetActive, .tx_find .facet-type-Tabs .listPager ol li.facetActive {
+
+.tx_find .listPager ol li {
   display: inline;
 }
-.tx_find .listPager ol li a, .tx_find .listPager .facet-type-Tabs ol li.facetActive a, .tx_find .facet-type-Tabs .listPager ol li.facetActive a {
+
+.tx_find .listPager ol li a {
   padding: 0.4em;
 }
+
 .tx_find .listPager .current {
   font-weight: bold;
-  color: #000;
+  color: var(--color-current);
 }
+
 .tx_find .listPager .resultCount {
   margin-bottom: 2em;
 }
+
 .tx_find .resultCount {
   float: right;
   width: 200px;
   text-align: right;
 }
+
 .tx_find .queryAndPager {
   margin: 1em 0 2em 0;
 }
+
 .tx_find .queryAndPager .query {
   display: none;
 }
+
 .tx_find .queryAndPager .resultPager {
   display: block;
   float: right;
 }
+
 .tx_find .queryAndPager .resultPager .pager {
-  color: #bbb;
+  color: var(--color-inactive);
 }
+
 .tx_find .queryAndPager .resultPager .pager .icon-right-dir:before,
 .tx_find .queryAndPager .resultPager .pager .icon-left-dir:before {
   position: relative;
@@ -327,22 +419,28 @@
   padding: 0 4px;
   font-size: 133%;
 }
-.tx_find .queryAndPager .resultPager .pager [class^=icon-]:hover,
+
+.tx_find .queryAndPager .resultPager .pager [class^="icon-"]:hover,
 .tx_find .queryAndPager .resultPager .pager [class*=" icon-"]:hover {
   text-decoration: none;
 }
+
 .tx_find .detail h1 {
   margin-bottom: 1em;
 }
+
 .tx_find dl {
   margin: 0;
 }
+
 .tx_find dt {
   font-weight: bold;
 }
+
 .tx_find dd {
   margin: 0.2em 0 1em 2em;
 }
+
 .tx_find dd ul {
   margin: 0;
 }

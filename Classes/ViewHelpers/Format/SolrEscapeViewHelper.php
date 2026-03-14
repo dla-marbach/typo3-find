@@ -26,7 +26,7 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use Solarium\Core\Query\Helper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -36,31 +36,22 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SolrEscapeViewHelper extends AbstractViewHelper
 {
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('string', 'string', 'the string to escape for Solr', false, null);
         $this->registerArgument('phrase', 'boolean', 'whether to use phrase escaping', false, false);
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $string = $arguments['string'];
-        if (null === $string) {
-            $string = $renderChildrenClosure();
+    public function render(): string
+    {
+        $string = $this->arguments['string'];
+        if ($string === null) {
+            $string = $this->renderChildren();
         }
 
-        $solariumHelper = new \Solarium\Core\Query\Helper();
+        $solariumHelper = new Helper();
 
-        return $arguments['phrase'] ? $solariumHelper->escapePhrase($string) : $solariumHelper->escapeTerm($string);
+        return $this->arguments['phrase'] ? $solariumHelper->escapePhrase($string) : $solariumHelper->escapeTerm($string);
     }
 }

@@ -6,7 +6,7 @@ namespace Subugoe\Find\Utility;
  *  Copyright notice
  *
  *  (c) 2015 Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
- *      Goettingen State Library
+ *      Göttingen State Library
  *
  *  All rights reserved
  *
@@ -27,30 +27,26 @@ namespace Subugoe\Find\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-/**
- * Array Helper.
- */
 class ArrayUtility
 {
     /**
-     * Removes all values from $array whose
-     * * keys begin with __
-     * * values are an empty string.
-     *
-     * Specifically aimed at the __hmac and __referrer keys introduced by Fluid
-     * forms as well as the text submitted by empty search form fields.
-     *
-     * @param array $array
-     *
-     * @return array
+     * Recursively cleans an arguments array:
+     * - Removes keys beginning with "__"
+     * - Removes elements that are empty strings
+     * Call this on $_GET, $_POST, or Extbase argument arrays before use.
      */
-    public static function cleanArgumentsArray($array)
+    public static function cleanArgumentsArray(array $array): array
     {
-        foreach ($array as $key => &$value) {
-            if (0 === strpos($key, '__') || '' === $value) {
+        foreach ($array as $key => $value) {
+            if (str_starts_with($key, '__') || $value === '') {
                 unset($array[$key]);
             } elseif (is_array($value)) {
-                self::cleanArgumentsArray($value);
+                $cleaned = self::cleanArgumentsArray($value);
+                if ($cleaned === []) {
+                    unset($array[$key]);
+                } else {
+                    $array[$key] = $cleaned;
+                }
             }
         }
 

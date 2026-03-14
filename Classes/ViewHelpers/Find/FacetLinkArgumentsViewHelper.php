@@ -28,7 +28,6 @@ namespace Subugoe\Find\ViewHelpers\Find;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -36,67 +35,73 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Arguments:
  *  - facetID: ID of the facet to create the link for
- *  - facetTerm: the value of the facet’s item in question [optional in remove mode]
+ *  - facetTerm: the value of the facet's item in question [optional in remove mode]
  *  - activeFacets: the array of active facets
  *  - mode: return an array for
- *      - add: f.link.action’s »arguments«, adding a facet selection
- *       - remove: f.link.action’s »argumentsToBeExcludedFromQueryString«, removing a facet selection
+ *      - add: f.link.action's »arguments«, adding a facet selection
+ *       - remove: f.link.action's »argumentsToBeExcludedFromQueryString«, removing a facet selection
  *              leaving out the facetTerm parameter removes all selected items for the facet facetID
  */
 class FacetLinkArgumentsViewHelper extends AbstractViewHelper
 {
-    /**
-     * Register arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('facetID', 'string', 'ID of the facet to determine the selection status of', true);
-        $this->registerArgument('facetTerm', 'string',
+        $this->registerArgument(
+            'facetTerm',
+            'string',
             'Term of the facet item to determine the selection status of; if NULL any facet with the given facetID matches',
-            false, null);
+            false,
+            null
+        );
         $this->registerArgument('activeFacets', 'array', 'Array of active facets', false, []);
         $this->registerArgument('mode', 'string', 'add|remove', false, 'add');
-        $this->registerArgument('not', 'boolean', 'Invert facet to not.', FALSE, '');
-        $this->registerArgument('modifier', 'string', 'Choose a modifier.', FALSE, '');
+        // FORK-ABWEICHUNG: Die Argumente 'not' und 'modifier' existieren im Original (subugoe/typo3-find)
+        // nicht. Sie werden fuer die Fork-spezifische Facetten-Negierung benoetigt, die es ermoeglicht,
+        // Facettenwerte mit einem "NOT"-Modifier auszuwaehlen (z.B. "alle Ergebnisse OHNE diesen Facettenwert").
+        // Dies wird in Verbindung mit dem Modifier-Feature im SolrServiceProvider verwendet.
+        $this->registerArgument('not', 'boolean', 'Invert facet to not.', false, '');
+        $this->registerArgument('modifier', 'string', 'Choose a modifier.', false, '');
     }
 
     /**
      * Create the return array required to add/remove the URL parameters by
-     * passing it to f.link.action’s »arguments«
+     * passing it to f.link.action's »arguments«
      * or »argumentsToBeExcludedFromQueryString«.
-     *
-     * @return array
      */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render(): array
+    {
         $result = [];
 
-        $facetID = $arguments['facetID'];
-        $facetTerm = $arguments['facetTerm'];
-        $activeFacets = $arguments['activeFacets'];
-        $mode = $arguments['mode'];
-        $modifier = $arguments['modifier'];
-        if ('remove' === $mode && $activeFacets) {
+        $facetID = $this->arguments['facetID'];
+        $facetTerm = $this->arguments['facetTerm'];
+        $activeFacets = $this->arguments['activeFacets'];
+        $mode = $this->arguments['mode'];
+        if ($mode === 'remove' && $activeFacets) {
             if (array_key_exists($facetID, $activeFacets)) {
-                $itemToRemove = 'tx_find_find[facet]['.$facetID.']';
+                $itemToRemove = 'tx_find_find[facet][' . $facetID . ']';
 
                 if (array_key_exists($facetTerm, $activeFacets[$facetID])) {
-                    $itemToRemove .= '['.$facetTerm.']';
+                    $itemToRemove .= '[' . $facetTerm . ']';
                 }
+
                 $result[] = $itemToRemove;
             }
+
             // Go back to page 1.
             $result[] = 'tx_find_find[page]';
-        } elseif ('add' === $mode) {
+        } elseif ($mode === 'add') {
             $result['facet'] = [
                 $facetID => [$facetTerm => 1],
             ];
+            // FORK-ABWEICHUNG: Wenn ein Modifier gesetzt ist (z.B. "not"), wird der Facettenwert
+            // mit dem entsprechenden Modifier-Wert versehen, anstatt nur den Standardwert 1 zu verwenden.
+            // Damit koennen Facetten im Fork negiert werden ("NOT"-Filter).
+            // Im Original (subugoe/typo3-find) gibt es diese Funktionalitaet nicht.
+            $modifier = $this->arguments['modifier'];
             if ($modifier) {
-                $result['facet'][$arguments['facetID']][str_replace('&', '%26', $arguments['facetTerm'])] = $arguments['modifier'];
+                $result['facet'][$facetID][str_replace('&', '%26', $facetTerm)] = $modifier;
             }
         }
 

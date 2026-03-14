@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -42,33 +41,24 @@ class SplitViewHelper extends AbstractViewHelper
      */
     public const DEFAULT_SEPARATOR = ', ';
 
-    /**
-     * Register arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('string', 'string', 'The string to split into components', false, null);
         $this->registerArgument('separator', 'string', 'The string separating the components', false, self::DEFAULT_SEPARATOR);
     }
 
-    /**
-     * @return array
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $string = $arguments['string'];
-        if (null === $string) {
-            $string = $renderChildrenClosure;
+    public function render(
+    ): array {
+        $string = $this->arguments['string'];
+        if ($string === null) {
+            $string = $this->renderChildren();
         }
 
-        if (empty($arguments['separator'])) {
-            $arguments['separator'] = self::DEFAULT_SEPARATOR;
+        if (empty($this->arguments['separator'])) {
+            $this->arguments['separator'] = self::DEFAULT_SEPARATOR;
         }
 
-        return explode($arguments['separator'], $string);
+        return explode($this->arguments['separator'], (string)$string);
     }
 }

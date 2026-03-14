@@ -26,7 +26,6 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -38,33 +37,25 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class JsonViewHelper extends AbstractViewHelper
 {
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('data', 'mixed', 'The data to output as JSON', false, null);
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render()
+    {
         @trigger_error('Please use f:format.json instead', E_USER_DEPRECATED);
 
         // Transform arguments for being compatible to the core ViewHelper arguments
         $data = [];
-        $data['value'] = $arguments['data'];
+        $data['value'] = $this->arguments['data'];
         $data['forceObject'] = false;
 
         // Call the Core ViewHelper
         $jsonViewHelper = new \TYPO3\CMS\Fluid\ViewHelpers\Format\JsonViewHelper();
+        $jsonViewHelper->setArguments(['data' => $data]);
 
-        return $jsonViewHelper::renderStatic($data, $renderChildrenClosure, $renderingContext);
+        return $jsonViewHelper->render();
     }
 }

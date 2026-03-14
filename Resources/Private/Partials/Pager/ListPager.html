@@ -6,7 +6,7 @@
 				<f:then>
 					<f:link.action
 						arguments="{page:pager.previous}"
-						addQueryString="untrusted"
+						addQueryString="TRUE"
 						section="{settings.jumpToID}"
 						class="icon-left-dir internal"
 						title="{f:translate(key:'Go to previous page of results. (Page %s)', arguments:'{1:pager.previous}')}"
@@ -25,7 +25,7 @@
 							<f:link.action
 								title="{f:translate(key:'Go to page %s of the search results.', arguments:'{1:page.number}')}"
 								arguments="{page:page.number}"
-								addQueryString="untrusted"
+								addQueryString="TRUE"
 								section="{settings.jumpToID}"
 								class="internal"
 							>
@@ -44,7 +44,7 @@
 				<f:then>
 					<f:link.action
 						arguments="{page:pager.next}"
-						addQueryString="untrusted"
+						addQueryString="TRUE"
 						section="{settings.jumpToID}"
 						class="icon-right-dir internal"
 						title="{f:translate(key:'Go to next page of results. (Page %s)', arguments:'{1:pager.next}')}"

@@ -26,7 +26,6 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -39,25 +38,22 @@ class IsArrayViewHelper extends AbstractViewHelper
     /**
      * Register arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('subject', 'array|string|int', 'The variable to inspect', false, null);
     }
 
-    /**
-     * @return bool
-     */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render(): bool
     {
         $result = false;
 
-        $subject = $arguments['subject'];
-        if (null === $subject) {
-            $subject = $renderChildrenClosure();
+        $subject = $this->arguments['subject'];
+        if ($subject === null) {
+            $subject = $this->renderChildren();
         }
 
-        if (null !== $subject) {
+        if ($subject !== null) {
             $result = is_array($subject);
         }
 

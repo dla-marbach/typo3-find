@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -44,28 +43,19 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
      */
     public const DEFAULT_RESULTS_PER_PAGE = 20;
 
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('resultNumber', 'int', 'number of the result to determine the page number for', true);
         $this->registerArgument('resultsPerPage', 'int', 'number of results per page', false, self::DEFAULT_RESULTS_PER_PAGE);
     }
 
-    /**
-     * @return int
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        if (0 === $arguments['resultsPerPage']) {
-            $arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
+    public function render(
+    ): int {
+        if ($this->arguments['resultsPerPage'] === 0) {
+            $this->arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
         }
 
-        return (int) ceil($arguments['resultNumber'] / $arguments['resultsPerPage']);
+        return (int)ceil($this->arguments['resultNumber'] / $this->arguments['resultsPerPage']);
     }
 }

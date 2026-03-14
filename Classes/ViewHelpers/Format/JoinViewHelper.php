@@ -26,7 +26,6 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -36,30 +35,26 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class JoinViewHelper extends AbstractViewHelper
 {
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('array', 'array', 'the array to join the elements of', false, null);
-        $this->registerArgument('separator', 'string', 'the separator string placed between the elements of the array',
-            false, ', ');
+        $this->registerArgument(
+            'separator',
+            'string',
+            'the separator string placed between the elements of the array',
+            false,
+            ', '
+        );
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $array = $arguments['array'];
-        if (null === $array) {
-            $array = $renderChildrenClosure();
+    public function render(): string
+    {
+        $array = $this->arguments['array'];
+        if ($array === null) {
+            $array = $this->renderChildren();
         }
 
-        return implode($arguments['separator'], $array);
+        return implode($this->arguments['separator'], $array);
     }
 }

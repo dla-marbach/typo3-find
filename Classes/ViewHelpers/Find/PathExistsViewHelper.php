@@ -28,7 +28,6 @@ namespace Subugoe\Find\ViewHelpers\Find;
  ******************************************************************************/
 
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -36,23 +35,14 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class PathExistsViewHelper extends AbstractViewHelper
 {
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('path', 'string', 'the path to check the existence of', true);
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        return file_exists(Environment::getPublicPath().'/'.$arguments['path']);
+    public function render(
+    ): bool {
+        return file_exists(Environment::getPublicPath() . '/' . $this->arguments['path']);
     }
 }

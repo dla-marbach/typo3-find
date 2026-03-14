@@ -26,32 +26,30 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test for ArrayFirst ViewHelper.
  */
-class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
+class ArrayFirstViewHelperTest extends UnitTestCase
 {
     /**
      * @var ArrayFirstViewHelper
      */
-    public $fixture;
+    public \PHPUnit\Framework\MockObject\MockObject $fixture;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(ArrayFirstViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['renderChildren'])
             ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
-    /**
-     * @test
-     */
-    public function isFirstElementOfAnArrayReturned()
+    #[Test]
+    public function isFirstElementOfAnArrayReturned(): void
     {
         $array = ['hrdr', 'horus', 'behedeti'];
         $this->fixture->setArguments(['array' => $array]);
@@ -59,10 +57,8 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame('hrdr', $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function nullIsReturnedOnNullValue()
+    #[Test]
+    public function nullIsReturnedOnNullValue(): void
     {
         $array = null;
         $this->fixture->setArguments(['array' => $array]);
@@ -70,10 +66,8 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         self::assertNull($this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function nullIsReturnedWhenPassingAStringInsteadOfAnArray()
+    #[Test]
+    public function nullIsReturnedWhenPassingAStringInsteadOfAnArray(): void
     {
         $array = 'hrdr';
         $this->fixture->setArguments(['array' => $array]);
@@ -81,10 +75,8 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         self::assertNull($this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function theValueFromTheFirstArrayIsReturnedOnMultidimensionalArrays()
+    #[Test]
+    public function theValueFromTheFirstArrayIsReturnedOnMultidimensionalArrays(): void
     {
         $array = ['hrdr' => 'horus', 'behedeti'];
         $this->fixture->setArguments(['array' => $array]);
@@ -92,10 +84,8 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame('horus', $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function anEmptyArrayCausesSomething()
+    #[Test]
+    public function anEmptyArrayCausesSomething(): void
     {
         $array = [];
         $this->fixture->setArguments(['array' => $array]);

@@ -1,12 +1,20 @@
 <?php
 
+/**
+ * FORK-ABWEICHUNG: Diese gesamte Datei existiert im Original (subugoe/typo3-find) nicht.
+ * Sie implementiert die Ajax-Facetten-Funktionalitaet des Forks, die es ermoeglicht,
+ * Facettendaten asynchron (per Ajax) vom Solr-Server zu laden, ohne die gesamte Seite
+ * neu laden zu muessen. Dies wird ueber eine PSR-15-Middleware realisiert, die auf
+ * spezielle Request-Parameter (facetId, q) reagiert und die Facettenwerte als JSON zurueckliefert.
+ * Die zugehoerige Konfiguration befindet sich in Configuration/RequestMiddlewares.php.
+ */
+
 namespace Subugoe\Find\Ajax;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\TypoScript\TemplateService;

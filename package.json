@@ -1,22 +1,29 @@
 {
   "name": "typo3-find",
   "version": "1.0.0",
-  "description": "TYPO3-Find Frontend build",
+  "description": "[![image](https://travis-ci.org/subugoe/typo3-find.svg?branch=travis)](https://travis-ci.org/subugoe/typo3-find)",
   "main": "index.js",
+  "dependencies": {
+    "awesomplete": "^1.1.7",
+    "chart.js": "^4.4.9",
+    "choices.js": "^11.1.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+
+  },
   "scripts": {
-    "build": "sass --no-source-map Resources/Private/Scss/find.scss Resources/Public/CSS/find.css"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/subugoe/typo3-find.git"
   },
-  "author": "Ingo Pfennigstorf <pfennigstorf@sub.uni-goettingen.de>",
-  "license": "GPL-2.0-or-later",
+  "keywords": [],
+  "author": "",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/subugoe/typo3-find/issues"
   },
-  "homepage": "https://github.com/subugoe/typo3-find#readme",
-  "devDependencies": {
-    "sass": "^1.54.9"
-  }
+  "homepage": "https://github.com/subugoe/typo3-find#readme"
 }

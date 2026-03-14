@@ -12,7 +12,7 @@
 					<f:if condition="{arguments.q} && {dla:isNull(variable:'{arguments.q.default}')}">
 						<f:then>
 							<f:link.action
-								addQueryString="untrusted"
+								addQueryString="TRUE"
 								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]', 2: 'tx_find_find[q]'}"
 								section="{settings.jumpToID}"
 								class=""
@@ -23,7 +23,7 @@
 						</f:then>
 						<f:else>
 							<f:link.action
-								addQueryString="untrusted"
+								addQueryString="TRUE"
 								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]'}"
 								section="{settings.jumpToID}"
 								class=""
@@ -39,7 +39,7 @@
 						<f:if condition="{reverseFacet}=='not'">
 							<li>
 								<f:link.action
-									addQueryString="untrusted"
+									addQueryString="TRUE"
 									argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetKey, facetTerm:reverseFacetKey, activeFacets:config.activeFacets, mode:'remove')}"
 									section="{settings.jumpToID}"
 									class=""
@@ -61,7 +61,7 @@
 								<f:comment><hr class="active-facet-hr"/></f:comment>
 								<li>
 									<f:link.action
-										addQueryString="untrusted"
+										addQueryString="TRUE"
 										argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets, mode:'remove')}"
 										section="{settings.jumpToID}"
 										class=""
@@ -94,7 +94,7 @@
 					<f:for each="{config.activeFacets.Zeit}" as="time">
 						<li>
 							<f:link.action
-								addQueryString="untrusted"
+								addQueryString="TRUE"
 								argumentsToBeExcludedFromQueryString="{1:'tx_find_find[facet][Zeit]'}"
 								section="{settings.jumpToID}"
 								class=""
@@ -111,7 +111,7 @@
 						<f:for each="{config.activeFacets.NeuImKatalog}" as="newCatalogue">
 							<li>
 								<f:link.action
-									addQueryString="untrusted"
+									addQueryString="TRUE"
 									argumentsToBeExcludedFromQueryString="{1:'tx_find_find[facet][NeuImKatalog]'}"
 									section="{settings.jumpToID}"
 									class=""

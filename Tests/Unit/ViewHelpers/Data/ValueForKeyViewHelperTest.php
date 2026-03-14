@@ -26,14 +26,12 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * Test for ValueForKey ViewHelper.
- */
-class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
+class ValueForKeyViewHelperTest extends UnitTestCase
 {
     use MockRenderingContextTrait;
 
@@ -47,15 +45,11 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getAccessibleMock(ValueForKeyViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->createRenderingContextMock();
-        $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
     }
 
-    /**
-     * @test
-     */
-    public function keyPicksTheRightValueFromTheArray()
+    #[Test]
+    public function keyPicksTheRightValueFromTheArray(): void
     {
         $array = [
             'a' => 'b',
@@ -71,30 +65,8 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function resultIsCorrectlyInterpretedAsJsonFromASimpleValue()
-    {
-        $array = [
-            'a' => 'b',
-            'b' => 'c',
-        ];
-        $key = 'a';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'key' => $key,
-            'format' => 'json',
-        ]);
-
-        self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
-    }
-
-    /**
-     * @test
-     */
-    public function resultIsCorrectlyInterpretedAsTextFromASimpleValue()
+    #[Test]
+    public function resultIsCorrectlyInterpretedAsJsonFromASimpleValue(): void
     {
         $array = [
             'a' => 'b',
@@ -111,10 +83,26 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function providingANonexistingKeyReturnsNull()
+    #[Test]
+    public function resultIsCorrectlyInterpretedAsTextFromASimpleValue(): void
+    {
+        $array = [
+            'a' => 'b',
+            'b' => 'c',
+        ];
+        $key = 'a';
+
+        $this->fixture->setArguments([
+            'array' => $array,
+            'key' => $key,
+            'format' => 'json',
+        ]);
+
+        self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
+    }
+
+    #[Test]
+    public function providingANonexistingKeyReturnsNull(): void
     {
         $array = [
             'a' => 'b',

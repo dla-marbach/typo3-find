@@ -4,9 +4,7 @@
 	the Facet partial.
 </f:comment>
 <f:if condition="{results.components.facetset.facets}">
-	<section class="facets {f:if(condition:facetInfo.ajax, then:'ajax-facet')}"
-					 id="{facetInfo.id}" data-activefacets="{s:find.ArrayToUrlParameter(array:config.activeFacets)}"
-					 data-displaydefault="{facetInfo.displayDefault}">
+	<section class="facets">
 		<h3 class="invisible">
 			<f:translate key="Facets"/>
 			<a href="#c{config.uid}-resultList">

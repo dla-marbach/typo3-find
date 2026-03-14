@@ -27,20 +27,17 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Logic\OrViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * Tests for the NOT viewhelper.
- */
-class OrViewHelperTest extends ViewHelperBaseTestcase
+class OrViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var OrViewHelper
-     */
-    protected $fixture;
+    protected OrViewHelper|MockObject $fixture;
 
-    public function conditionProvider(): array
+    public static function conditionProvider(): array
     {
         return [
             [
@@ -66,10 +63,10 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
             [
                 [
                     true === 3,
-                    1 === 'hrdr',
+                    1 === 0,
                     'hrdr' === '3',
-                    'behedeti' == 'hrdr',
-                    7 == 'hrdr',
+                    'behedeti' === 'hrdr',
+                    7 == 0,
                 ],
                 false,
             ],
@@ -91,17 +88,12 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(OrViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(OrViewHelper::class, ['renderChildren']);
     }
 
-    /**
-     * @test
-     * @dataProvider conditionProvider
-     */
-    public function orConditionIsMet($conditions, $expected): void
+    #[Test]
+    #[DataProvider(methodName: 'conditionProvider')]
+    public function orConditionIsMet(array $conditions, bool $expected): void
     {
         $this->fixture->setArguments([
             'conditions' => $conditions,

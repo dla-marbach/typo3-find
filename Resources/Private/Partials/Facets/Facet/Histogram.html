@@ -13,7 +13,7 @@
 			<f:alias map="{years:\"{s:format.regexp(match:'/RANGE ([0-9]*) TO ([0-9]*)/', replace:'\1-\2', string:term)}\"}">
 				<span class="facetActive">
 					<f:link.action
-						addQueryString="untrusted"
+						addQueryString="TRUE"
 						argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, activeFacets:config.activeFacets, mode:'remove')}"
 						section="{settings.jumpToID}"
 						class="icon-cancel facetRemove internal"
@@ -40,10 +40,10 @@
 				activeFacets: config.activeFacets
 			}')}"
 			data-link="{f:uri.action(
-				addQueryString:'untrusted',
+				addQueryString:'TRUE',
 				arguments:'{addArguments}',
 				argumentsToBeExcludedFromQueryString:'{removeArguments}',
-				section:'{settings.jumpToID}'
+				section:'{settings.jumpToID}',
 			)}"/>
 	</f:alias>
 </div>

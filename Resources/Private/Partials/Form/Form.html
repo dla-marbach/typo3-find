@@ -54,7 +54,7 @@
 				<f:if condition="{config.extendedSearch}">
 					<f:then>
 						<f:link.action
-							addQueryString="untrusted"
+							addQueryString="TRUE"
 							argumentsToBeExcludedFromQueryString="{0:'{config.prefixID}[extendedSearch]'}"
 							class="extendedSearch internal"
 							additionalAttributes="{
@@ -66,7 +66,7 @@
 					</f:then>
 					<f:else>
 						<f:link.action
-							addQueryString="untrusted"
+							addQueryString="TRUE"
 							arguments="{extendedSearch: 1}"
 							class="extendedSearch internal"
 							additionalAttributes="{

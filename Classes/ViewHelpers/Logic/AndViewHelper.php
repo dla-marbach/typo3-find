@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Logic;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -37,28 +36,19 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class AndViewHelper extends AbstractViewHelper
 {
-    /**
-     * Registers own arguments.
-     */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('conditions', 'array', 'the array of conditions to AND', true);
     }
 
-    /**
-     * @return bool
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render(
+    ): bool {
         $result = true;
-        foreach ($arguments['conditions'] as $condition) {
-            $result &= (true == $condition);
+        foreach ($this->arguments['conditions'] as $condition) {
+            $result &= ($condition == true);
         }
 
-        return (bool) $result;
+        return (bool)$result;
     }
 }

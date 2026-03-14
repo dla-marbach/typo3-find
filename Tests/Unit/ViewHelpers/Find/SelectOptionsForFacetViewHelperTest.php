@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test for SelectOptionsForFacet ViewHelper.
  */
-class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
+class SelectOptionsForFacetViewHelperTest extends UnitTestCase
 {
     /**
      * @var SelectOptionsForFacetViewHelper
@@ -42,16 +43,11 @@ class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(SelectOptionsForFacetViewHelper::class)
-            ->setMethods(['renderChildren'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(SelectOptionsForFacetViewHelper::class, ['renderChildren']);
     }
 
-    /**
-     * @test
-     */
-    public function returnTrueIfAPathExists()
+    #[Test]
+    public function returnTrueIfAPathExists(): void
     {
         $arguments = [
             'values' => [],

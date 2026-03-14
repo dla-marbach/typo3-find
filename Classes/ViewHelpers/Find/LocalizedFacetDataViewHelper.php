@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Find;
  ******************************************************************************/
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -57,42 +56,36 @@ class LocalizedFacetDataViewHelper extends AbstractViewHelper
     /**
      * Registers own arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('data', 'Array', 'facet data', true);
         $this->registerArgument('settings', 'Array', 'find settings', true);
     }
 
-    /**
-     * @return array
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render(
+    ): array {
         $facetNames = [];
         $facetEntryNames = [];
 
-        $baseKey = 'LLL:'.$arguments['settings']['languageRootPath'].'locallang-facets.xml:facet';
-        foreach ($arguments['data'] as $facetID => $facetData) {
-            $facetKey = $baseKey.'.'.$facetID;
+        $baseKey = 'LLL:' . $this->arguments['settings']['languageRootPath'] . 'locallang-facets.xml:facet';
+        foreach ($this->arguments['data'] as $facetID => $facetData) {
+            $facetKey = $baseKey . '.' . $facetID;
             $localizedFacetName = LocalizationUtility::translate($facetKey, '', []);
-            if (null !== $localizedFacetName) {
+            if ($localizedFacetName !== null) {
                 $facetNames[$facetID] = $localizedFacetName;
             }
 
             $localizationsForFacet = [];
             foreach ($facetData->getValues() as $facetEntryID => $count) {
-                $facetEntryKey = $facetKey.'.'.$facetEntryID;
+                $facetEntryKey = $facetKey . '.' . $facetEntryID;
                 $localizedFacetEntryName = LocalizationUtility::translate($facetEntryKey, '', []);
-                if (null !== $localizedFacetEntryName) {
+                if ($localizedFacetEntryName !== null) {
                     $localizationsForFacet[$facetEntryID] = $localizedFacetEntryName;
                 }
             }
 
-            if ([] !== $localizationsForFacet) {
+            if ($localizationsForFacet !== []) {
                 $facetEntryNames[$facetID] = $localizationsForFacet;
             }
         }

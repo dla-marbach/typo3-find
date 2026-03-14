@@ -26,16 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * Test for Split ViewHelper.
- */
-class SplitViewHelperTest extends ViewHelperBaseTestcase
+class SplitViewHelperTest extends UnitTestCase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Data\SplitViewHelper
+     * @var SplitViewHelper
      */
     public $fixture;
 
@@ -43,16 +41,11 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(SplitViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = new SplitViewHelper();
     }
 
-    /**
-     * @test
-     */
-    public function stringIsExplodedCorrectlyWithoutPassedSeparator()
+    #[Test]
+    public function stringIsExplodedCorrectlyWithoutPassedSeparator(): void
     {
         $string = 'hrdr, behedeti, horus';
         $expected = ['hrdr', 'behedeti', 'horus'];
@@ -65,10 +58,8 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function stringIsExplodedCorrectlyWithPassedSeparator()
+    #[Test]
+    public function stringIsExplodedCorrectlyWithPassedSeparator(): void
     {
         $string = 'hrdr, behedeti, horus';
         $separator = ', ';
@@ -82,10 +73,8 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function stringIsExplodedCorrectlyWithNonDefaultSeparator()
+    #[Test]
+    public function stringIsExplodedCorrectlyWithNonDefaultSeparator(): void
     {
         $string = 'hrdrhorus behedetihorus horus';
         $separator = 'horus ';
@@ -98,10 +87,8 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function emptyArrayIsReturnedWhenPassingIt()
+    #[Test]
+    public function emptyArrayIsReturnedWhenPassingIt(): void
     {
         $string = '';
         $expected = [''];

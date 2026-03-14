@@ -22,12 +22,12 @@ namespace Subugoe\Find\ViewHelpers\Page;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\TypoScript\TemplateService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidFileException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidFileNameException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -37,65 +37,33 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ScriptViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return PageRenderer
-     */
-    protected static function getPageRenderer()
-    {
-        return GeneralUtility::makeInstance(PageRenderer::class);
-    }
+    public function __construct(private readonly PageRenderer $pageRenderer, private readonly FilePathSanitizer $filePathSanitizer) {}
 
-    /**
-     * @return TemplateService
-     */
-    protected static function getTypoScriptTemplateService()
-    {
-        return $GLOBALS['TSFE']->tmpl;
-    }
-
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('file', 'string', 'File to append as script');
         $this->registerArgument('name', 'string', 'Name to use', true);
     }
 
     /**
-     * @return string
+     * @throws InvalidPathException
+     * @throws InvalidFileNameException
+     * @throws InvalidFileException
+     * @throws FileDoesNotExistException
      */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $name = $arguments['name'];
-        $pageRenderer = self::getPageRenderer();
+    public function render(): string
+    {
+        $name = $this->arguments['name'];
 
-        $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '9.5.0', '<');
-
-        if ($typo3VersionConstraint) {
-            $scriptPath = static::getTypoScriptTemplateService()->getFileName($arguments['file']);
-
-            if ($scriptPath) {
-                $pageRenderer->addJsFooterLibrary($name, $scriptPath);
-
-                return '';
-            }
-
-            $content = $renderChildrenClosure();
-            $pageRenderer->addJsFooterInlineCode($name, $content);
-
-            return '';
+        $fileNameFromArguments = $this->arguments['file'];
+        if ($fileNameFromArguments) {
+            $scriptPath = $this->filePathSanitizer->sanitize($fileNameFromArguments);
+            $this->pageRenderer->addJsFooterLibrary($name, $scriptPath);
         } else {
-            $fileNameFromArguments = $arguments['file'];
-            if ($fileNameFromArguments) {
-                $scriptPath = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class)->sanitize($fileNameFromArguments);
-                $pageRenderer->addJsFooterLibrary($name, $scriptPath);
-            } else {
-                $content = $renderChildrenClosure();
-                $pageRenderer->addJsFooterInlineCode($name, $content);
-            }
-
-            return '';
+            $content = $this->renderChildren();
+            $this->pageRenderer->addJsFooterInlineCode($name, $content);
         }
+
+        return '';
     }
 }

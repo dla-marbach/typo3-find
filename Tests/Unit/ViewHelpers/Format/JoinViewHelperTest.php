@@ -27,13 +27,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\JoinViewHelper;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Join viewhelper test.
  */
-class JoinViewHelperTest extends ViewHelperBaseTestcase
+class JoinViewHelperTest extends UnitTestCase
 {
     /**
      * @var JoinViewHelper
@@ -44,16 +45,11 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(JoinViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = new JoinViewHelper();
     }
 
-    /**
-     * @test
-     */
-    public function arrayIsJoinedAsCommaSeparatedValue()
+    #[Test]
+    public function arrayIsJoinedAsCommaSeparatedValue(): void
     {
         $array = ['hrdr', 'behedeti', 'chub'];
         $separator = ',';
@@ -67,10 +63,8 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function arrayIsJoinedWithNonAsciiCharacter()
+    #[Test]
+    public function arrayIsJoinedWithNonAsciiCharacter(): void
     {
         $array = ['hrdr', 'behedeti', 'chub'];
         $separator = '€';
@@ -84,10 +78,8 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function arrayIsJoinedWithMoreThanOneCharacter()
+    #[Test]
+    public function arrayIsJoinedWithMoreThanOneCharacter(): void
     {
         $array = ['hrdr', 'behedeti', 'chub'];
         $separator = '€$';
@@ -101,10 +93,8 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function arrayWithOneElementIsNotPostfixedWithSeparator()
+    #[Test]
+    public function arrayWithOneElementIsNotPostfixedWithSeparator(): void
     {
         $array = ['hrdr'];
         $separator = '€$';
@@ -118,10 +108,8 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
-    public function emptyArrayResultsInEmptyString()
+    #[Test]
+    public function emptyArrayResultsInEmptyString(): void
     {
         $array = [];
         $separator = '€$';

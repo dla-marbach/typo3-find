@@ -385,25 +385,36 @@ class SolrServiceProvider extends AbstractServiceProvider
                         } elseif (array_key_exists('facettype', $facet)) {
                             if ($facet['facettype'] == 'date_range') {
                                 if ($facet['start'] && $facet['end'] && $facet['gap']) {
-
-                                    try {
-                                        $stats = $statsquery->getStats();
-                                        $stats->createField('facet_time_stat');
-
-                                        $resultset = $this->connection->select($statsquery);
-
-                                        $statsResult = $resultset->getStats();
-                                        $minValue = $statsResult->getResult('facet_time_stat')->getMin();
-                                        #seems not be used
-                                        #$maxValue = $statsResult->getResult('facet_time_stat')->getMax();
-
-                                    } catch (HttpException $exception) {
-                                        // preset to year 0, if stats query faild
+                                    if (empty($facet['statsfield'])) {
+                                        $this->logger->warning(
+                                            sprintf('TypoScript facet »%s« with facettype »date_range« does not define »statsfield«. Using fallback date »0000-01-01«.', $facetID),
+                                            [
+                                                'facet' => $facet,
+                                            ]
+                                        );
                                         $minValue = '0000-01-01';
+                                    } else {
+                                        $statsField = $facet['statsfield'];
 
-                                    } catch (Exception $e) {
-                                        // preset to year 0, if stats query faild
-                                        $minValue = '0000-01-01';
+                                        try {
+                                            $stats = $statsquery->getStats();
+                                            $stats->createField($statsField);
+
+                                            $resultset = $this->connection->select($statsquery);
+
+                                            $statsResult = $resultset->getStats();
+                                            $minValue = $statsResult->getResult($statsField)->getMin();
+                                            #seems not be used
+                                            #$maxValue = $statsResult->getResult($statsField)->getMax();
+
+                                        } catch (HttpException $exception) {
+                                            // preset to year 0, if stats query faild
+                                            $minValue = '0000-01-01';
+
+                                        } catch (Exception $e) {
+                                            // preset to year 0, if stats query faild
+                                            $minValue = '0000-01-01';
+                                        }
                                     }
 
                                     if (!$minValue)

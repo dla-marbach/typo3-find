@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
+namespace Dla\Find\Tests\Unit\ViewHelpers\LinkedData;
 
 /* * *************************************************************
  *  Copyright notice
@@ -28,8 +28,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
-use Subugoe\Find\ViewHelpers\LinkedData\ItemViewHelper;
+use Dla\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
+use Dla\Find\ViewHelpers\LinkedData\ItemViewHelper;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
 /**

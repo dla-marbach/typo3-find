@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
+namespace Dla\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
  *  Copyright notice
@@ -27,7 +27,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
+use Dla\Find\ViewHelpers\Data\SplitViewHelper;
 
 /**
  * Test for Split ViewHelper.
@@ -35,7 +35,7 @@ use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
 class SplitViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Data\SplitViewHelper
+     * @var \Dla\Find\ViewHelpers\Data\SplitViewHelper
      */
     public $fixture;
 

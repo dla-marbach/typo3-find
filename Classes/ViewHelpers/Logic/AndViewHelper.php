@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\ViewHelpers\Logic;
+namespace Dla\Find\ViewHelpers\Logic;
 
 /*******************************************************************************
  * Copyright notice

@@ -11,10 +11,10 @@ $autoexec = static function () {
         'Find',
         'Find',
         [
-            \Subugoe\Find\Controller\SearchController::class => 'index, detail, suggest',
+            \Dla\Find\Controller\SearchController::class => 'index, detail, suggest',
         ],
         [
-            \Subugoe\Find\Controller\SearchController::class => 'index, detail, suggest',
+            \Dla\Find\Controller\SearchController::class => 'index, detail, suggest',
         ]
     );
 

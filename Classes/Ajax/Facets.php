@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Ajax;
+namespace Dla\Find\Ajax;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

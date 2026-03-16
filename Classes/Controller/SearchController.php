@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Controller;
+namespace Dla\Find\Controller;
 
 /* * *************************************************************
  *  Copyright notice
@@ -30,9 +30,9 @@ namespace Subugoe\Find\Controller;
  * ************************************************************* */
 
 use Psr\Http\Message\ResponseInterface;
-use Subugoe\Find\Service\ServiceProviderInterface;
-use Subugoe\Find\Utility\ArrayUtility;
-use Subugoe\Find\Utility\FrontendUtility;
+use Dla\Find\Service\ServiceProviderInterface;
+use Dla\Find\Utility\ArrayUtility;
+use Dla\Find\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

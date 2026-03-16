@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Service;
+namespace Dla\Find\Service;
 
 /* * *************************************************************
  *  Copyright notice
@@ -32,10 +32,10 @@ use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
-use Subugoe\Find\Utility\FrontendUtility;
-use Subugoe\Find\Utility\LoggerUtility;
-use Subugoe\Find\Utility\SettingsUtility;
-use Subugoe\Find\Utility\UpgradeUtility;
+use Dla\Find\Utility\FrontendUtility;
+use Dla\Find\Utility\LoggerUtility;
+use Dla\Find\Utility\SettingsUtility;
+use Dla\Find\Utility\UpgradeUtility;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 

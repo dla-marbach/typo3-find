@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\Controller;
+namespace Dla\Find\Tests\Unit\Controller;
 
 /* * *************************************************************
  *  Copyright notice
@@ -26,7 +26,7 @@ namespace Subugoe\Find\Tests\Unit\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use Subugoe\Find\Controller\SearchController;
+use Dla\Find\Controller\SearchController;
 
 /**
  * Tests for search controller.
@@ -34,7 +34,7 @@ use Subugoe\Find\Controller\SearchController;
 class SearchControllerTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 {
     /**
-     * @var \Subugoe\Find\Controller\SearchController
+     * @var \Dla\Find\Controller\SearchController
      */
     protected $fixture;
 

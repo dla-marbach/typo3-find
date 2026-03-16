@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers;
+namespace Dla\Find\Tests\Unit\ViewHelpers;
 
 /* * *************************************************************
  *  Copyright notice

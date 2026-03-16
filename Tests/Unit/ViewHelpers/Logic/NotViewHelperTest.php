@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
+namespace Dla\Find\Tests\Unit\ViewHelpers\LinkedData;
 
 /* * *************************************************************
  *  Copyright notice
@@ -28,7 +28,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\ViewHelpers\Logic\NotViewHelper;
+use Dla\Find\ViewHelpers\Logic\NotViewHelper;
 
 /**
  * Tests for the NOT viewhelper.

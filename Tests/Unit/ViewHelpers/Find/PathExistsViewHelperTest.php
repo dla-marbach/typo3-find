@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
+namespace Dla\Find\Tests\Unit\ViewHelpers\Find;
 
 /* * *************************************************************
  *  Copyright notice
@@ -27,7 +27,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\ViewHelpers\Find\PathExistsViewHelper;
+use Dla\Find\ViewHelpers\Find\PathExistsViewHelper;
 
 /**
  * Test for PathExists ViewHelper.

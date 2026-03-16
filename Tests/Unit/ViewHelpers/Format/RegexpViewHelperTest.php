@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
+namespace Dla\Find\Tests\Unit\ViewHelpers\Format;
 
 /* * *************************************************************
  *  Copyright notice
@@ -28,7 +28,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\ViewHelpers\Format\RegexpViewHelper;
+use Dla\Find\ViewHelpers\Format\RegexpViewHelper;
 
 /**
  * Regexp viewhelper test.

@@ -6,7 +6,7 @@ plugin.tx_find {
         connections {
             default {
                 # cat=plugin.tx_find/connections/default; type=string; label=Default Service Provider
-                provider = Subugoe\Find\Service\SolrServiceProvider
+                provider = Dla\Find\Service\SolrServiceProvider
                 options {
                     # cat=plugin.tx_find/connections/default; type=string; label=Solr Host
                     host = 127.0.0.1

@@ -2,8 +2,8 @@
 
 return [
     'frontend' => [
-        'Subugoe/Find/Ajax/Facets' => [
-            'target' => \Subugoe\Find\Ajax\Facets::class,
+        'Dla/Find/Ajax/Facets' => [
+            'target' => \Dla\Find\Ajax\Facets::class,
             'after' => [
                 'typo3/cms-frontend/site'
             ],

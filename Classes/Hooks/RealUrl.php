@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Hooks;
+namespace Dla\Find\Hooks;
 
 /* * *************************************************************
  *  Copyright notice

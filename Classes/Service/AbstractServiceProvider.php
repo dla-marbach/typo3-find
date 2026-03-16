@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Service;
+namespace Dla\Find\Service;
 
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Log\LogManagerInterface;

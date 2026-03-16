@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Service;
+namespace Dla\Find\Service;
 
 /* * *************************************************************
  *  Copyright notice

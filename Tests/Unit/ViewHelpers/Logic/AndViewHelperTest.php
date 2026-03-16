@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
+namespace Dla\Find\Tests\Unit\ViewHelpers\Logic;
 
 /* * *************************************************************
  *  Copyright notice
@@ -28,7 +28,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\ViewHelpers\Logic\AndViewHelper;
+use Dla\Find\ViewHelpers\Logic\AndViewHelper;
 
 /**
  * Tests for the AND viewhelper.

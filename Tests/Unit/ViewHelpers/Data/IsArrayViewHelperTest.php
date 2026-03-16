@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
+namespace Dla\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
  *  Copyright notice
@@ -27,7 +27,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper;
+use Dla\Find\ViewHelpers\Data\IsArrayViewHelper;
 
 /**
  * Test for IsArray ViewHelper.

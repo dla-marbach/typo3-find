@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Utility;
+namespace Dla\Find\Utility;
 
 /* * *************************************************************
  *  Copyright notice

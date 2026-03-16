@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
+namespace Dla\Find\Tests\Unit\ViewHelpers\Find;
 
 /* * *************************************************************
  *  Copyright notice
@@ -27,8 +27,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
-use Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper;
+use Dla\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
+use Dla\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper;
 
 /**
  * Test for FacetLinkArguments ViewHelper.

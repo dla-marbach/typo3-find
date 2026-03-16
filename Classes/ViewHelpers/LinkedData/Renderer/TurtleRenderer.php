@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
+namespace Dla\Find\ViewHelpers\LinkedData\Renderer;
 
 /*******************************************************************************
  * Copyright notice

@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
+namespace Dla\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
  *  Copyright notice
@@ -27,8 +27,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
-use Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper;
+use Dla\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
+use Dla\Find\ViewHelpers\Data\ValueForKeyViewHelper;
 
 /**
  * Test for ValueForKey ViewHelper.

@@ -4,10 +4,10 @@ services:
     autoconfigure: true
     public: false
 
-  Subugoe\Find\:
+  Dla\Find\:
     resource: '../Classes/*'
     exclude: '../Classes/Ajax/EidSettings.php'
 
-  Subugoe\Find\ViewHelpers\:
+  Dla\Find\ViewHelpers\:
     resource: '../Classes/ViewHelpers/*'
     public: true

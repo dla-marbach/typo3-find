@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Tests\Unit\Service;
+namespace Dla\Tests\Unit\Service;
 
 /* * *************************************************************
  *  Copyright notice
@@ -28,7 +28,7 @@ namespace Subugoe\Tests\Unit\Service;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Subugoe\Find\Service\SolrServiceProvider;
+use Dla\Find\Service\SolrServiceProvider;
 
 /**
  * Solr ServiceProvider Test.

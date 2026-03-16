@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\ViewHelpers\Page;
+namespace Dla\Find\ViewHelpers\Page;
 
 /*******************************************************************************
  * Copyright notice

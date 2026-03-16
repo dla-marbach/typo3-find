@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\ViewHelpers\Solr;
+namespace Dla\Find\ViewHelpers\Solr;
 
 /***************************************************************
  *

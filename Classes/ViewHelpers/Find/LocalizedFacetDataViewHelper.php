@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\ViewHelpers\Find;
+namespace Dla\Find\ViewHelpers\Find;
 
 /*******************************************************************************
  * Copyright notice

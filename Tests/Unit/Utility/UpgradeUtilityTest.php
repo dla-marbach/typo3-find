@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Subugoe\Find\Tests\Unit\Utility;
+namespace Dla\Find\Tests\Unit\Utility;
 
 use PHPUnit\Framework\TestCase;
-use Subugoe\Find\Utility\UpgradeUtility;
+use Dla\Find\Utility\UpgradeUtility;
 
 class UpgradeUtilityTest extends TestCase
 {

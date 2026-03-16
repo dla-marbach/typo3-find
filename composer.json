@@ -2,7 +2,6 @@
     "name": "dla/find",
     "description": "A fork of subugoe/find - a frontend for Solr indexes",
     "type": "typo3-cms-extension",
-    "version": "1.0.0",
     "keywords": [
         "TYPO3 CMS"
     ],

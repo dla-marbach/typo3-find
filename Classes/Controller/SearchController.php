@@ -101,11 +101,6 @@ class SearchController extends ActionController
      */
     public function indexAction(): ResponseInterface
     {
-        if(!array_key_exists('qParam', $this->requestArguments)) {
-            $params = array('qParam' => '1');
-            return $this->redirect('index', NULL, NULL, array_merge($this->requestArguments, $params));
-        }
-
         if (array_key_exists('id', $this->requestArguments)) {
             return $this->redirect('detail', NULL, NULL, $this->requestArguments);
         } else {

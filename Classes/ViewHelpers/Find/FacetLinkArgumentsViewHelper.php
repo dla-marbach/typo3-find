@@ -91,6 +91,9 @@ class FacetLinkArgumentsViewHelper extends AbstractViewHelper
             }
             // Go back to page 1.
             $result[] = 'tx_find_find[page]';
+            $result[] = 'cHash';
+            $result[] = 'tx_find_find[controller]';
+            $result[] = 'tx_find_find[action]';
         } elseif ('add' === $mode) {
             $result['facet'] = [
                 $facetID => [$facetTerm => 1],

@@ -13,7 +13,7 @@
 						<f:then>
 							<f:link.action
 								addQueryString="untrusted"
-								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]', 2: 'tx_find_find[q]'}"
+								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]', 2: 'tx_find_find[q]', 3: 'tx_find_find[controller]', 4: 'tx_find_find[action]', 5: 'cHash'}"
 								section="{settings.jumpToID}"
 								class=""
 								title="alle Filter zurücksetzen">
@@ -24,7 +24,7 @@
 						<f:else>
 							<f:link.action
 								addQueryString="untrusted"
-								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]'}"
+								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]', 2: 'tx_find_find[controller]', 3: 'tx_find_find[action]', 4: 'cHash'}"
 								section="{settings.jumpToID}"
 								class=""
 								title="{f:translate(key:'Reset all facets')}">
@@ -95,7 +95,7 @@
 						<li>
 							<f:link.action
 								addQueryString="untrusted"
-								argumentsToBeExcludedFromQueryString="{1:'tx_find_find[facet][Zeit]'}"
+								argumentsToBeExcludedFromQueryString="{1:'tx_find_find[facet][Zeit]', 2:'tx_find_find[controller]', 3:'tx_find_find[action]', 4:'cHash'}"
 								section="{settings.jumpToID}"
 								class=""
 								title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">

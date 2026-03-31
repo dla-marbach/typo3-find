@@ -7,6 +7,7 @@
 					<f:link.action
 						arguments="{page:pager.previous}"
 						addQueryString="untrusted"
+						argumentsToBeExcludedFromQueryString="{0:'cHash',1:'tx_find_find[controller]',2:'tx_find_find[action]'}"
 						section="{settings.jumpToID}"
 						class="icon-left-dir internal"
 						title="{f:translate(key:'Go to previous page of results. (Page %s)', arguments:'{1:pager.previous}')}"
@@ -26,6 +27,7 @@
 								title="{f:translate(key:'Go to page %s of the search results.', arguments:'{1:page.number}')}"
 								arguments="{page:page.number}"
 								addQueryString="untrusted"
+								argumentsToBeExcludedFromQueryString="{0:'cHash',1:'tx_find_find[controller]',2:'tx_find_find[action]'}"
 								section="{settings.jumpToID}"
 								class="internal"
 							>
@@ -45,6 +47,7 @@
 					<f:link.action
 						arguments="{page:pager.next}"
 						addQueryString="untrusted"
+						argumentsToBeExcludedFromQueryString="{0:'cHash',1:'tx_find_find[controller]',2:'tx_find_find[action]'}"
 						section="{settings.jumpToID}"
 						class="icon-right-dir internal"
 						title="{f:translate(key:'Go to next page of results. (Page %s)', arguments:'{1:pager.next}')}"

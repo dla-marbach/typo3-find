@@ -27,7 +27,7 @@
 		removeArguments:'{f:if(
 			condition:\"{s:data.valueForKey(array:config.activeFacets, key:facetInfo.id)}\",
 			then:\"{s:find.facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:config.activeFacets)}\",
-			else:\"{0:\'{config.prefixID}[page]\'}\"
+			else:\"{0:\'{config.prefixID}[page]\',1:\'tx_find_find[controller]\',2:\'tx_find_find[action]\',3:\'cHash\'}\"
 		)}',
 		barWidthInt:'{facetInfo.barWidth + 0}'
 	}">

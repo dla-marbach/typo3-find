@@ -36,7 +36,7 @@
 			<f:link.action
 				addQueryString="untrusted"
 				arguments="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}"
-				argumentsToBeExcludedFromQueryString="{0:'{config.prefixID}[page]'}"
+				argumentsToBeExcludedFromQueryString="{0:'{config.prefixID}[page]',1:'tx_find_find[controller]',2:'tx_find_find[action]',3:'cHash'}"
 				section="{settings.jumpToID}"
 				class="facetAdd internal">
 				<f:translate

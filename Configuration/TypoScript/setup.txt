@@ -170,7 +170,7 @@ plugin.tx_find {
             queryStyle = filter
             # queryStyle = and
             fetchMinimum = 1
-            fetchMaximum = 100
+            fetchMaximum = 50
             displayDefault = 6
             sortOrder = count
         }

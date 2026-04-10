@@ -121,13 +121,16 @@ class SearchController extends ActionController
 
             $this->addStandardAssignments();
             $defaultQuery = $this->searchProvider->getDefaultQuery();
+            $defaultResultSet = $defaultQuery['results'] ?? null;
 
             // redirect to detail if only one item found and search is configured to redirect
-            if ($defaultQuery['results']->getNumFound() === 1) {
+            if ($defaultResultSet !== null && $defaultResultSet->getNumFound() === 1) {
+                $firstDocId = $defaultResultSet->getData()['response']['docs'][0]['id'] ?? null;
                 $redirectQueries = [];
                 if ($this->settings['redirectAllOneHitToDetail']) {
-                    $docId = $defaultQuery['results']->getData()['response']['docs'][0]['id'];
-                    return $this->redirect('detail', NULL, NULL, ['id' => $docId]);
+                    if ($firstDocId !== null) {
+                        return $this->redirect('detail', NULL, NULL, ['id' => $firstDocId]);
+                    }
                 } else {
                     foreach ($this->settings['queryFields'] as $querySettings) {
                         if ($querySettings['redirectToDetail']) {
@@ -135,10 +138,9 @@ class SearchController extends ActionController
                         }
                     }
 
-                    foreach ($this->requestArguments['q'] as $queryId => $queryTerm) {
-                        if (array_key_exists($queryId, $redirectQueries)) {
-                            $docId = $defaultQuery['results']->getData()['response']['docs'][0]['id'];
-                            return $this->redirect('detail', NULL, NULL, ['id' => $docId]);
+                    foreach (($this->requestArguments['q'] ?? []) as $queryId => $queryTerm) {
+                        if ($firstDocId !== null && array_key_exists($queryId, $redirectQueries)) {
+                            return $this->redirect('detail', NULL, NULL, ['id' => $firstDocId]);
                         }
                     }
                 }

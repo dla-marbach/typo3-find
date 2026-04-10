@@ -16,7 +16,7 @@
 								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]', 2: 'tx_find_find[q]', 3: 'tx_find_find[controller]', 4: 'tx_find_find[action]', 5: 'cHash'}"
 								section="{settings.jumpToID}"
 								class=""
-								title="alle Filter zurücksetzen">
+								title="alle Filter zurücksetzen" additionalAttributes="{rel: 'nofollow'}">
 								<span class="icon bel-ende01"></span>
 								<f:translate key="Reset all facets"/>
 							</f:link.action>
@@ -27,7 +27,7 @@
 								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]', 2: 'tx_find_find[controller]', 3: 'tx_find_find[action]', 4: 'cHash'}"
 								section="{settings.jumpToID}"
 								class=""
-								title="{f:translate(key:'Reset all facets')}">
+								title="{f:translate(key:'Reset all facets')}" additionalAttributes="{rel: 'nofollow'}">
 								<span class="icon bel-ende01"></span>
 								<f:translate key="Reset all facets"/>
 							</f:link.action>
@@ -44,7 +44,7 @@
 									section="{settings.jumpToID}"
 									class=""
 									style="text-decoration:line-through;"
-									title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">
+									title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}" additionalAttributes="{rel: 'nofollow'}">
 									<span class="icon bel-ende01"></span>
 									<span style="opacity: 0.7;">{reverseFacetKey}</span>
 								</f:link.action>
@@ -65,7 +65,7 @@
 										argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets, mode:'remove')}"
 										section="{settings.jumpToID}"
 										class=""
-										title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">
+										title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}" additionalAttributes="{rel: 'nofollow'}">
 										<span class="icon bel-ende01"></span>
 										<f:if condition="{facetTerm} == 'true'">
 											<f:then>
@@ -98,7 +98,7 @@
 								argumentsToBeExcludedFromQueryString="{1:'tx_find_find[facet][Zeit]', 2:'tx_find_find[controller]', 3:'tx_find_find[action]', 4:'cHash'}"
 								section="{settings.jumpToID}"
 								class=""
-								title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">
+								title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}" additionalAttributes="{rel: 'nofollow'}">
 								<span class="icon bel-ende01"></span>
 								<dla:activeFacet text="{time.term}" as="output"/>
 								{output}
@@ -115,7 +115,7 @@
 									argumentsToBeExcludedFromQueryString="{1:'tx_find_find[facet][NeuImKatalog]'}"
 									section="{settings.jumpToID}"
 									class=""
-									title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">
+									title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}" additionalAttributes="{rel: 'nofollow'}">
 									<span class="icon bel-ende01"></span>
 									<f:if condition="{newCatalogue.term}=='RANGE NOW-7DAYS TO NOW'">
 										<f:then>Woche</f:then>

@@ -30,7 +30,7 @@
 				argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets, mode:'remove')}"
 				section="{settings.jumpToID}"
 				class="icon-cancel facetRemove internal"
-				title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}"><span class="facetName"><f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTermDisplay}" default="{facetTermDisplay}"/></span></f:link.action>
+				title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}" additionalAttributes="{rel: 'nofollow'}"><span class="facetName"><f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTermDisplay}" default="{facetTermDisplay}"/></span></f:link.action>
 		</f:then>
 		<f:else>
 			<f:link.action
@@ -38,7 +38,7 @@
 				arguments="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}"
 				argumentsToBeExcludedFromQueryString="{0:'{config.prefixID}[page]',1:'tx_find_find[controller]',2:'tx_find_find[action]',3:'cHash'}"
 				section="{settings.jumpToID}"
-				class="facetAdd internal">
+				class="facetAdd internal" additionalAttributes="{rel: 'nofollow'}">
 				<f:translate
 					key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTermDisplay}"
 					default="{facetTermDisplay}"/>&nbsp;<span class="facetCount">{itemCount}</span>

@@ -93,13 +93,13 @@ var tx_find = (function () {
 					  elementClass = 'facetActive';
 					  iconClass = 'bel-ok01';
 					  // generate html for active facet block
-					  $("section.active-facets ul").append('<li><a title="Filter '+this.label+' aufheben" href="' + this.link + '"><span class="icon bel-ende01"></span>'+this.label+'</a></li>');
+            $("section.active-facets ul").append('<li><a title="Filter '+this.label+' aufheben" href="' + this.link + '" rel="nofollow"><span class="icon bel-ende01"></span>'+this.label+'</a></li>');
 				  }
 				  if (i > displayDefault) {
 					  elementClass = elementClass + ' hidden';
 				  }
 				  $('#'+facetId+' ul.facetList')
-					  .prepend('<li class="' + elementClass + '"><a href="' + this.link + '"><span class="icon '+ iconClass +'"></span></a><a class="facetAdd facetText internal" href="' + this.link + '">' + this.label + '<em>('+this.count+')</em></a><a class="facetExclude facetRemoveIcon hide-text" href="' + this.linkReverse + '"><span class="icon bel-verboten"></span></a></li>');
+            .prepend('<li class="' + elementClass + '"><a href="' + this.link + '" rel="nofollow"><span class="icon '+ iconClass +'"></span></a><a class="facetAdd facetText internal" href="' + this.link + '" rel="nofollow">' + this.label + '<em>('+this.count+')</em></a><a class="facetExclude facetRemoveIcon hide-text" href="' + this.linkReverse + '" rel="nofollow"><span class="icon bel-verboten"></span></a></li>');
 				  i--;
 			  });
 

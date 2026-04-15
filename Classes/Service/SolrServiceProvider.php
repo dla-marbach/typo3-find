@@ -513,12 +513,20 @@ class SolrServiceProvider extends AbstractServiceProvider
             // Configure highlight queries.
             if (isset($highlightConfig['query'])) {
                 $queryWords = [];
-                if ($highlightConfig['useQueryTerms'] && array_key_exists('q', $arguments)) {
+                if (!empty($highlightConfig['useQueryTerms']) && array_key_exists('q', $arguments) && is_array($arguments['q'])) {
                     $queryParameters = $arguments['q'];
                     foreach ($this->settings['queryFields'] as $fieldInfo) {
-                        $fieldID = $fieldInfo['id'];
-                        if ($fieldID && $queryParameters[$fieldID]) {
-                            $queryArguments = $queryParameters[$fieldID];
+                        $fieldID = $fieldInfo['id'] ?? null;
+                        if (!$fieldID || !array_key_exists($fieldID, $queryParameters)) {
+                            continue;
+                        }
+
+                        $queryArguments = $queryParameters[$fieldID];
+                        $hasValue = is_array($queryArguments) ? [] !== array_filter($queryArguments) : '' !== trim((string) $queryArguments);
+                        if (!$hasValue) {
+                            continue;
+                        }
+
                             $queryTerms = null;
                             if (is_array($queryArguments) && array_key_exists(
                                 'alternate',
@@ -537,8 +545,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                             }
 
                             foreach ($queryTerms as $queryTerm) {
-                                if (!$fieldInfo['noescape']) {
-                                    if ($fieldInfo['phrase']) {
+                                if (empty($fieldInfo['noescape'])) {
+                                    if (!empty($fieldInfo['phrase'])) {
                                         $queryTerm = $this->query->getHelper()->escapePhrase($queryTerm);
                                     } else {
                                         $queryTerm = $this->query->getHelper()->escapeTerm($queryTerm);
@@ -547,13 +555,12 @@ class SolrServiceProvider extends AbstractServiceProvider
 
                                 $queryWords[] = $queryTerm;
                             }
-                        }
                     }
                 }
 
                 $queryWords = array_filter($queryWords);
 
-                if ($highlightConfig['useFacetTerms']) {
+                if (!empty($highlightConfig['useFacetTerms'])) {
                     foreach ($this->getActiveFacets($arguments) as $facets) {
                         foreach (array_keys($facets) as $facetTerm) {
                             $queryWords[] = $this->query->getHelper()->escapePhrase($facetTerm);
@@ -567,8 +574,9 @@ class SolrServiceProvider extends AbstractServiceProvider
                 }
 
                 $queryString = implode(' OR ', $queryComponents);
-
-                $highlight->setQuery($queryString);
+                if ('' !== $queryString) {
+                    $highlight->setQuery($queryString);
+                }
             }
 
             // Configure highlight fields.

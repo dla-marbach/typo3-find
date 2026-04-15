@@ -551,6 +551,22 @@ class SolrServiceProvider extends AbstractServiceProvider
                                     } else {
                                         $queryTerm = $this->query->getHelper()->escapeTerm($queryTerm);
                                     }
+                                } elseif (2 === (int) $fieldInfo['noescape']) {
+                                    $chars = explode(',', $fieldInfo['escapechar']);
+                                    foreach ($chars as $char) {
+                                        $queryTerm = str_replace($char, '\\'.$char, $queryTerm);
+                                    }
+
+                                    if (!empty($fieldInfo['replaceAfterEscape'])) {
+                                        foreach ($fieldInfo['replaceAfterEscape'] as $values) {
+                                            foreach ($values as $find => $replace) {
+                                                if ('boost' === $find) {
+                                                    continue;
+                                                }
+                                                $queryTerm = str_replace($find, $replace, $queryTerm);
+                                            }
+                                        }
+                                    }
                                 }
 
                                 $queryWords[] = $queryTerm;

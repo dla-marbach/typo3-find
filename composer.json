@@ -1,5 +1,5 @@
 {
-    "name": "dla/find",
+    "name": "subugoe/find",
     "description": "A frontend for Solr indexes",
     "type": "typo3-cms-extension",
     "version": "5.0.0",
@@ -18,12 +18,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Dla\\Find\\": "Classes/"
+            "Subugoe\\Find\\": "Classes/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Dla\\Find\\Tests\\": "Tests/"
+            "Subugoe\\Find\\Tests\\": "Tests/"
         }
     },
     "replace": {

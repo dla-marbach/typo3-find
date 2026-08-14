@@ -43,7 +43,8 @@
         "ext-json": "*",
         "solarium/solarium": "^6.3",
         "typo3/cms-core": "^12",
-        "typo3/cms-felogin": "^12"
+        "typo3/cms-extbase": "^12",
+        "typo3/cms-fluid": "^12"
     },
     "config": {
         "allow-plugins": {

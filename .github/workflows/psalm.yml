@@ -1,0 +1,34 @@
+name: PHP Security Scan (Psalm)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  psalm:
+    name: Psalm security analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Psalm
+        uses: docker://ghcr.io/psalm/psalm-github-actions:6.16.1
+        with:
+          security_analysis: true
+          report_file: results.sarif
+          composer_require_dev: true
+          composer_ignore_platform_reqs: true
+
+      - name: Upload security analysis results to GitHub
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif

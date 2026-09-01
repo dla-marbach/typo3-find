@@ -22,7 +22,7 @@ jobs:
       - name: Psalm
         uses: docker://ghcr.io/psalm/psalm-github-actions:6.16.1
         env:
-          COMPOSER_NO_BLOCKING: 1
+          COMPOSER_NO_SECURITY_BLOCKING: 1
         with:
           security_analysis: true
           report_file: results.sarif

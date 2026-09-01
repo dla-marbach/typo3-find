@@ -21,6 +21,10 @@ jobs:
 
       - name: Psalm
         uses: docker://ghcr.io/psalm/psalm-github-actions:6.16.1
+        env:
+          # The Psalm action hard-codes `composer install`; this allows its isolated install to resolve
+          # TYPO3 12 packages currently blocked by Packagist PKSA advisories so Psalm can report findings.
+          COMPOSER_NO_SECURITY_BLOCKING: 1
         with:
           security_analysis: true
           report_file: results.sarif

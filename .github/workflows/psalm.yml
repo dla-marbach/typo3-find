@@ -22,6 +22,7 @@ jobs:
       - name: Psalm
         uses: docker://ghcr.io/psalm/psalm-github-actions:6.16.1
         env:
+          # Allow Psalm's isolated Composer install to resolve TYPO3 12 packages so Psalm can report security findings.
           COMPOSER_NO_SECURITY_BLOCKING: 1
         with:
           security_analysis: true

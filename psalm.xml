@@ -8,7 +8,8 @@
 >
     <projectFiles>
         <directory name="Classes"/>
-        <directory name="Configuration"/>
+        <directory name="Configuration/TCA"/>
+        <file name="Configuration/RequestMiddlewares.php"/>
         <file name="ext_localconf.php"/>
         <ignoreFiles>
             <directory name="vendor"/>

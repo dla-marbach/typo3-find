@@ -27,14 +27,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Format\JoinViewHelper;
 
 /**
  * Join viewhelper test.
  */
-class JoinViewHelperTest extends ViewHelperBaseTestcase
+class JoinViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var JoinViewHelper
      */
@@ -45,7 +47,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getMockBuilder(JoinViewHelper::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

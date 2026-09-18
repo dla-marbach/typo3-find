@@ -26,14 +26,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Find\FacetIsActiveViewHelper;
 
 /**
  * Test for FacetIsActive ViewHelper.
  */
-class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
+class FacetIsActiveViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var FacetIsActiveViewHelper
      */

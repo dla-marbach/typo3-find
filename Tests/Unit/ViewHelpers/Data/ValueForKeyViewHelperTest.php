@@ -26,15 +26,17 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Dla\Find\ViewHelpers\Data\ValueForKeyViewHelper;
 
 /**
  * Test for ValueForKey ViewHelper.
  */
-class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
+class ValueForKeyViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     use MockRenderingContextTrait;
 
     /**

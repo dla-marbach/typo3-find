@@ -27,14 +27,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Format\StripViewHelper;
 
 /**
  * Tests for the whitespace stripping viewhelper.
  */
-class StripViewHelperTest extends ViewHelperBaseTestcase
+class StripViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var StripViewHelper
      */
@@ -57,7 +59,7 @@ class StripViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(StripViewHelper::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

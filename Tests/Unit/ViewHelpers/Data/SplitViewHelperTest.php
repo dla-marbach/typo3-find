@@ -26,14 +26,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Data\SplitViewHelper;
 
 /**
  * Test for Split ViewHelper.
  */
-class SplitViewHelperTest extends ViewHelperBaseTestcase
+class SplitViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var \Dla\Find\ViewHelpers\Data\SplitViewHelper
      */
@@ -44,7 +46,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getMockBuilder(SplitViewHelper::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

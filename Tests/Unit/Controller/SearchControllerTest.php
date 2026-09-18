@@ -31,7 +31,7 @@ use Dla\Find\Controller\SearchController;
 /**
  * Tests for search controller.
  */
-class SearchControllerTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
+class SearchControllerTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 {
     /**
      * @var \Dla\Find\Controller\SearchController
@@ -40,6 +40,7 @@ class SearchControllerTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->fixture = $this->getMockBuilder(SearchController::class)
             ->disableOriginalConstructor()
             ->getMock();

@@ -26,15 +26,17 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Data\TransposeViewHelper;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
 /**
  * Test for Transpose ViewHelper.
  */
-class TransposeViewHelperTest extends ViewHelperBaseTestcase
+class TransposeViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var TransposeViewHelper
      */
@@ -49,9 +51,10 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['buildRenderChildrenClosure'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->method('buildRenderChildrenClosure')->willReturn(static fn () => null);
     }
 
     /**
@@ -78,8 +81,8 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->renderingContext->getVariableProvider()->expects(self::at(0))->method('add')->with('hrdr', $expected);
-        $this->renderingContext->getVariableProvider()->expects(self::at(1))->method('remove')->with('hrdr');
+        $this->renderingContext->getVariableProvider()->expects(self::once())->method('add')->with('hrdr', $expected);
+        $this->renderingContext->getVariableProvider()->expects(self::once())->method('remove')->with('hrdr');
 
         $this->fixture->initializeArgumentsAndRender();
     }

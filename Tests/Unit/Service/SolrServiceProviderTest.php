@@ -27,7 +27,7 @@ namespace Dla\Tests\Unit\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Dla\Find\Service\SolrServiceProvider;
 
 /**
@@ -42,8 +42,9 @@ class SolrServiceProviderTest extends UnitTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->fixture = $this->getMockBuilder(SolrServiceProvider::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->disableOriginalConstructor()
             ->getMock();
     }

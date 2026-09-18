@@ -26,15 +26,17 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Dla\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper;
 
 /**
  * Test for FacetLinkArguments ViewHelper.
  */
-class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
+class FacetLinkArgumentsViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     use MockRenderingContextTrait;
 
     /**
@@ -46,7 +48,7 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(FacetLinkArgumentsViewHelper::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

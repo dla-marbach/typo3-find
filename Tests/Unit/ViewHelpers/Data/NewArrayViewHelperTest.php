@@ -26,14 +26,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Data\NewArrayViewHelper;
 
 /**
  * Test for NewArray ViewHelper.
  */
-class NewArrayViewHelperTest extends ViewHelperBaseTestcase
+class NewArrayViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var NewArrayViewHelper
      */

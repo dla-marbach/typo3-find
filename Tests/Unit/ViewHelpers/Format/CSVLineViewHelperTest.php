@@ -27,14 +27,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Format\CSVLineViewHelper;
 
 /**
  * CSV line viewhelper test.
  */
-class CSVLineViewHelperTest extends ViewHelperBaseTestcase
+class CSVLineViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var CSVLineViewHelper
      */
@@ -45,7 +47,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getMockBuilder(CSVLineViewHelper::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
@@ -57,7 +59,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         $data = ['hrdr', 'behedeti', 'chub'];
         $fieldDelimiter = ',';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -76,7 +78,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         $data = ['hrdr', 'behedeti', 'chub'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -95,7 +97,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -114,7 +116,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '//';
+        $fieldEnclosure = '/';
 
         $this->fixture->setArguments([
             'data' => $data,

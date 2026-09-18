@@ -27,14 +27,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Format\XMLViewHelper;
 
 /**
  * Tests for the XML formatting viewhelper.
  */
-class XMLViewHelperTest extends ViewHelperBaseTestcase
+class XMLViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var XMLViewHelper
      */
@@ -65,7 +67,7 @@ class XMLViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(XMLViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['buildRenderChildrenClosure'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
@@ -76,7 +78,7 @@ class XMLViewHelperTest extends ViewHelperBaseTestcase
      */
     public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected)
     {
-        $this->fixture->method('renderChildren')->willReturn($string);
+        $this->fixture->method('buildRenderChildrenClosure')->willReturn(static fn () => $string);
 
         $this->fixture->setArguments([
             'htmloutput' => $htmloutput,

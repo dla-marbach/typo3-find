@@ -27,14 +27,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\LinkedData;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Logic\NotViewHelper;
 
 /**
  * Tests for the NOT viewhelper.
  */
-class NotViewHelperTest extends ViewHelperBaseTestcase
+class NotViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var NotViewHelper
      */
@@ -62,7 +64,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(NotViewHelper::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

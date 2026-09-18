@@ -26,14 +26,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper;
 
 /**
  * Test for SelectOptionsForFacet ViewHelper.
  */
-class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
+class SelectOptionsForFacetViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var SelectOptionsForFacetViewHelper
      */
@@ -43,7 +45,7 @@ class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(SelectOptionsForFacetViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['renderChildren'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

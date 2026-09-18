@@ -26,14 +26,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Find\PathExistsViewHelper;
 
 /**
  * Test for PathExists ViewHelper.
  */
-class PathExistsViewHelperTest extends ViewHelperBaseTestcase
+class PathExistsViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var PathExistsViewHelper
      */

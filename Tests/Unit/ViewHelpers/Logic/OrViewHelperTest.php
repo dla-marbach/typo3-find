@@ -27,14 +27,16 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\Logic;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\ViewHelpers\Logic\OrViewHelper;
 
 /**
  * Tests for the NOT viewhelper.
  */
-class OrViewHelperTest extends ViewHelperBaseTestcase
+class OrViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     /**
      * @var OrViewHelper
      */
@@ -92,7 +94,7 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(OrViewHelper::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

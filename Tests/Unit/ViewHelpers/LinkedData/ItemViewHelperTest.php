@@ -27,7 +27,8 @@ namespace Dla\Find\Tests\Unit\ViewHelpers\LinkedData;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use Dla\Find\Tests\Unit\ViewHelpers\ViewHelperTestTrait;
 use Dla\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Dla\Find\ViewHelpers\LinkedData\ItemViewHelper;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
@@ -35,8 +36,9 @@ use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 /**
  * Tests for the item viewhelper.
  */
-class ItemViewHelperTest extends ViewHelperBaseTestcase
+class ItemViewHelperTest extends UnitTestCase
 {
+    use ViewHelperTestTrait;
     use MockRenderingContextTrait;
 
     /**
@@ -63,10 +65,10 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(ItemViewHelper::class)
-            ->setMethods(['dummy'])
+            ->onlyMethods([])
             ->getMock();
         $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)
-            ->setMethods(['add', 'get', 'remove', 'exists'])
+            ->onlyMethods(['add', 'get', 'remove', 'exists'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

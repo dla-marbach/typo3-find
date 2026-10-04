@@ -1,8 +1,13 @@
-# Fork der subugoe/find TYPO3-Extension für den Katalog des DLA Marbach
+# Archiviert: aufgegangen in dla/dla_opac_ng
 
-Dies ist ein Fork von https://github.com/subugoe/typo3-find mit umfangreichen Änderungen.
+**Diese Extension wird nicht mehr weiterentwickelt.** Seit Version 6 von
+[dla/dla_opac_ng](https://github.com/dla-marbach/dla-opac-ng) ist das Such-Plugin dort enthalten,
+inklusive der vollständigen Git-Historie dieses Repositorys (`git log -- Classes/Find` im Repo dla-opac-ng).
 
-Diese TYPO3-Extension wird als Abhängigkeit in https://github.com/dla-marbach/dla-opac-ng/ verwendet.
+Das Composer-Paket `dla/find` wird von `dla/dla_opac_ng` ab Version 6 ersetzt (`replace`). Die
+Upgrade-Anleitung steht im README von dla-opac-ng (Abschnitt „Upgrade auf Version 6“).
 
-Zusammen wird daraus das Frontend für den Katalog des DLA Marbach:
-https://www.dla-marbach.de/katalog/
+---
+
+Dies war ein Fork von https://github.com/subugoe/typo3-find mit umfangreichen Änderungen für den Katalog des
+DLA Marbach: https://www.dla-marbach.de/katalog/.
